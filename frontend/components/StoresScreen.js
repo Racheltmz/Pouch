@@ -6,8 +6,9 @@ import {
   FlatList,
   Image,
 } from "react-native";
+import React, { useState } from "react";
 
-const stores = [
+const storesData = [
   {
     id: "1",
     name: "stuff'd",
@@ -32,6 +33,8 @@ const stores = [
 ];
 
 const StoresScreen = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [stores, setStores] = useState(storesData);
   const renderStore = ({ item }) => (
     <View style={styles.storeCard}>      
     <Text style={styles.storeName}>{item.name}</Text>
@@ -45,9 +48,18 @@ const StoresScreen = () => {
     </View>
   );
 
+  const handleSearch = (text) => {
+    const filteredStores = storesData.filter((store) =>
+      store.name.toLowerCase().includes(text.toLowerCase())
+    );
+    setSearchQuery(text);
+    setStores(filteredStores);
+  };
+
   return (
     <View style={styles.container}>
-      <TextInput style={styles.searchBar} placeholder="Search" placeholderTextColor="#000" />
+      <TextInput style={styles.searchBar} placeholder="Search" placeholderTextColor="#000" value={searchQuery}
+        onChangeText={handleSearch} />
       <FlatList
         data={stores}
         renderItem={renderStore}
