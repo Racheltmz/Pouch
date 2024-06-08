@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, Image } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 
 const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -55,7 +54,9 @@ const RegisterScreen = ({ navigation }) => {
       </Text>
       <TouchableOpacity onPress={handleLoginLink}>
         <Text style={styles.loginLink}>
-          <Text style={styles.label}>{capitalizeFirstLetter('Already') + ' have an account? Login'}</Text>
+          <Text style={styles.label}>{capitalizeFirstLetter('Already') + ' have an account? '}
+            <Text style={styles.labelFocus}>{capitalizeFirstLetter('Login')}</Text>
+          </Text>
         </Text>
       </TouchableOpacity>
     </View>
@@ -95,6 +96,9 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     marginBottom: 30,
+  },
+  labelFocus: {
+    color: '#88C34A',
   },
   input: {
     width: '80%',

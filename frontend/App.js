@@ -1,7 +1,7 @@
+import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React, { useState }  from 'react';
 import { StyleSheet, View, TouchableOpacity, Modal, Button, Image, Text } from 'react-native';
 import LoginScreen from './components/LoginScreen';
 import HomeScreen from './components/HomeScreen';
@@ -16,7 +16,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const CustomTabBar = ({ state, descriptors, navigation }) => {
-  const [modalVisible, setModalVisible] = React.useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <View style={styles.tabBarContainer}>

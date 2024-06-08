@@ -1,85 +1,97 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image } from "react-native";
+import { db } from '../firebase/config.js';
+import { ref, onValue } from 'firebase/database';
 
-const rewards = [
+const rewardsLayout = [
   {
     id: "1",
-    category: "Under 999 Points",
-    data: [
-      {
-        id: "1",
-        name: "stuff'd",
-        description: "10% off your Next Order",
-        points: "900 Points",
-        image: require("../assets/stuffd-logo.jpeg"),
-      },
-      {
-        id: "2",
-        name: "Maki-San",
-        description: "$1 off your Total Order",
-        points: "500 Points",
-        image: require("../assets/makisan-logo.jpeg"),
-      },
-    ],
+    category: "Under 999 Points"
   },
   {
     id: "2",
-    category: "1000 Points & Above",
-    data: [
-      {
-        id: "3",
-        name: "Nam Kee Pau",
-        description: "50% off your Next Order",
-        points: "1000 Points",
-        image: require("../assets/namkeepau-logo.jpeg"),
-      },
-      {
-        id: "4",
-        name: "Pezzo",
-        description: "55% off your Next Order",
-        points: "1500 Points",
-        image: require("../assets/pezzo-logo.png"),
-      },
-    ],
+    category: "1000 Points & Above"
   },
-];
+]
+
+const images = {
+  1: require("../assets/stuffd-logo.jpeg"),
+  2: require("../assets/makisan-logo.jpeg"),
+  3: require("../assets/namkeepau-logo.jpeg"),
+  4: require("../assets/pezzo-logo.png"),
+};
+
 const RewardsScreen = () => {
-    const renderRewardItem = ({ item }) => (
-      <View style={styles.rewardCard}>
-        <Image source={item.image} style={styles.rewardImage} />
-        <Text style={styles.rewardName}>{item.name}</Text>
-        <Text style={styles.rewardDescription}>{item.description}</Text>
-        <Text style={styles.rewardPoints}>{item.points}</Text>
-      </View>
-    );
-  
-    return (
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.memberStatus}>You are a Green Member!</Text>
-          <View style={styles.greenRectangle}>
-            <View style={styles.pointsContainer}>
-              <Text style={styles.points}>1000</Text>
-              <Text style={styles.pointsLabel}>Points</Text>
-            </View>
+  // Initialise states
+  const [points, setPoints] = useState(0);
+  const [rewards, setRewards] = useState([]);
+
+  // Get user's points
+  // useEffect(() => {
+  //   return onValue(ref(db, '/users'), querySnapShot => {
+  //     let data = querySnapShot.val() || {};
+  //   })
+  // }, []);
+  // Get list of rewards
+  useEffect(() => {
+    return onValue(ref(db, '/rewards'), querySnapShot => {
+      let data = querySnapShot.val() || {};
+      let listing = { ...data };
+      let over1000 = [];
+      let under1000 = [];
+      let count = 0;
+      Object.entries(listing).map(entry => {
+        let record = entry[1];
+        record.id = count + 1;
+        if (record.points < 1000) {
+          under1000.push(record);
+        } else {
+          over1000.push(record);
+        }
+        count++;
+      });
+      rewardsLayout[0].data = under1000;
+      rewardsLayout[1].data = over1000;
+      setRewards(rewardsLayout);
+    })
+  }, []);
+
+  const renderRewardItem = ({ item }) => (
+    <View style={styles.rewardCard}>
+      <Image source={images[item.id]} style={styles.rewardImage} />
+      <Text style={styles.rewardName}>{item.name}</Text>
+      <Text style={styles.rewardDescription}>{item.description}</Text>
+      <Text style={styles.rewardPoints}>{item.points}</Text>
+    </View>
+  );
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.memberStatus}>You are a Green Member!</Text>
+        <View style={styles.greenRectangle}>
+          <View style={styles.pointsContainer}>
+            <Text style={styles.points}>1000</Text>
+            <Text style={styles.pointsLabel}>Points</Text>
           </View>
         </View>
-        {rewards.map((section, index) => (
-          <View key={section.id} style={[styles.sectionContainer, index === 0 ? styles.firstSection : null]}>
-            <Text style={styles.categoryTitle}>{section.category}</Text>
-            <FlatList
-              horizontal
-              data={section.data}
-              renderItem={renderRewardItem}
-              keyExtractor={(item) => item.id}
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.rewardList}
-            />
-          </View>
-        ))}
       </View>
-    );
-  };
+      {rewards.map((section, index) => (
+        <View key={section.id} style={[styles.sectionContainer, index === 0 ? styles.firstSection : null]}>
+          <Text style={styles.categoryTitle}>{section.category}</Text>
+          <FlatList
+            horizontal
+            data={section.data}
+            renderItem={renderRewardItem}
+            keyExtractor={(item) => item.id}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.rewardList}
+          />
+        </View>
+      ))}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
