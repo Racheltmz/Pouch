@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const MyRewardsScreen = () => (
+const PointsHistoryScreen = () => (
   <View style={styles.container}>
-    <Text>My Rewards Screen</Text>
+    <Text>Points History Screen</Text>
   </View>
 );
 
@@ -15,4 +15,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MyRewardsScreen;
+export default PointsHistoryScreen;

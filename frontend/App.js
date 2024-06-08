@@ -11,6 +11,10 @@ import StoresScreen from './components/StoresScreen';
 import RewardsScreen from './components/RewardsScreen';
 import AccountScreen from './components/AccountScreen';
 import RegisterScreen from './components/RegisterScreen';
+import SettingsScreen from './components/SettingsScreen';
+import PointsHistoryScreen from './components/PointsHistoryScreen';
+import MyRewardsScreen from './components/MyRewardsScreen';
+import MyReferralsScreen from './components/MyReferralsScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -140,6 +144,11 @@ export default function App() {
           component={MainTabNavigator}
           options={{ headerShown: false }}
         />
+        <Stack.Screen name="Settings" component={SettingsScreen} />
+        <Stack.Screen name="Rewards" component={RewardsScreen} />
+        <Stack.Screen name="Points History" component={PointsHistoryScreen} />
+        <Stack.Screen name="My Rewards" component={MyRewardsScreen} />
+        <Stack.Screen name="My Referrals" component={MyReferralsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
