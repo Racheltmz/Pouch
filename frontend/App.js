@@ -1,8 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Modal, Button } from 'react-native';
+import React, { useState }  from 'react';
+import { StyleSheet, View, TouchableOpacity, Modal, Button, Image, Text } from 'react-native';
 import LoginScreen from './components/LoginScreen';
 import HomeScreen from './components/HomeScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -62,10 +62,10 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
           >
             {route.name === 'QRButton' ? (
               <View style={styles.qrButton}>
-                <Icon name="qr-code" color="#fff" size={40} />
+                <Icon name="qr-code" color="#fff" size={30} />
               </View>
             ) : (
-              <Icon name={iconName} color={isFocused ? '#88C34A' : '#222'} size={25} />
+              <Icon name={iconName} color={isFocused ? '#88C34A' : '#222'} size={30} />
             )}
           </TouchableOpacity>
         );
@@ -78,8 +78,12 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <QRCode value="https://example.com" size={200} />
-            <Button title="Close" onPress={() => setModalVisible(false)} />
+            <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
+              <Image source={require('./assets/close-icon.png')} style={styles.closeIcon} />
+            </TouchableOpacity>
+            <Text style={styles.modalText}>My Pouch QR</Text>
+            <QRCode value="https://www.youtube.com/watch?v=BbeeuzU5Qc8" size={200} />
+            <Text style={styles.modalText}>P 128 039</Text>
           </View>
         </View>
       </Modal>
@@ -144,7 +148,7 @@ export default function App() {
 const styles = StyleSheet.create({
   tabBarContainer: {
     flexDirection: 'row',
-    height: 75,
+    height: 90,
     borderTopWidth: 1,
     borderTopColor: '#ccc',
     backgroundColor: '#fff',
@@ -158,7 +162,7 @@ const styles = StyleSheet.create({
   },
   qrButton: {
     position: 'absolute',
-    bottom: 10,
+    bottom: 5,
     alignSelf: 'center',
     backgroundColor: '#88C34A',
     padding: 25,
@@ -172,10 +176,27 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalContent: {
-    width: 300,
+    width: 280,
+    height: 400,
     padding: 20,
     backgroundColor: 'white',
     borderRadius: 10,
     alignItems: 'center',
+  },
+  modalText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 30,
+    marginTop: 30,
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    zIndex: 1, // Ensure the close button is above other content
+  },
+  closeIcon: {
+    width: 30,
+    height: 30,
   },
 });
