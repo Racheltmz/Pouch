@@ -1,8 +1,29 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, Image } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 
-  const SignUpScreen = () => {
+const SignUpScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleSignUp = () => {
+    if (email.trim() === '') {
+      setErrorMessage('Email is required to sign up');
+    } else {
+      setErrorMessage('');
+      // Handle sign-up logic here
+    }
+  };
+
+  const handleGoogleLogin = () => {
+    // Navigate to the LoginScreen
+    navigation.navigate("Login");
+  };
+
+  const handleLoginLink = () => {
+    // Navigate to the LoginScreen
+    navigation.navigate("Login");
+  };
 
   return (
     <View style={styles.container}>
@@ -18,12 +39,13 @@ import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, Image } fr
         value={email}
         onChangeText={setEmail}
       />
-      <TouchableOpacity style={styles.button}>
+      {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
+      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
         <Text style={styles.buttonText}>{capitalizeFirstLetter('Sign') + ' up with email'}</Text>
       </TouchableOpacity>
       <Text style={styles.or}>{capitalizeFirstLetter('or') + ' continue with'}</Text>
-      <TouchableOpacity style={styles.googleButton}>
-        <Text style={styles.googleButtonText}>{capitalizeFirstLetter('Sign') + ' in with Google'}</Text>
+      <TouchableOpacity style={styles.googleButton} onPress={handleGoogleLogin}>
+        <Text style={styles.googleButtonText}> {capitalizeFirstLetter('Sign') + ' in with Google'}</Text>
       </TouchableOpacity>
       <Text style={styles.footer}>
         {capitalizeFirstLetter('By') + ' clicking continue, you agree to our '}
@@ -31,9 +53,9 @@ import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, Image } fr
         and 
         <Text style={styles.link}>{capitalizeFirstLetter(' Privacy Policy')}</Text>
       </Text>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handleLoginLink}>
         <Text style={styles.loginLink}>
-        <Text style={styles.label}>{capitalizeFirstLetter('Already') + ' have an account? Login'}</Text>
+          <Text style={styles.label}>{capitalizeFirstLetter('Already') + ' have an account? Login'}</Text>
         </Text>
       </TouchableOpacity>
     </View>
@@ -63,7 +85,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   pouch: {
-    color: '#4CAF50',
+    color: '#88C34A',
   },
   subtitle: {
     fontSize: 17,
@@ -82,7 +104,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 20,
-    fontStyle: 'italic',
     color: '#828282'
   },
   button: {
@@ -105,7 +126,7 @@ const styles = StyleSheet.create({
   googleButton: {
     width: '80%',
     height: 40,
-    backgroundColor: '#4285F4',
+    backgroundColor: '#88C34A',
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
@@ -122,7 +143,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   link: {
-    color: '#4CAF50',
+    color: '#88C34A',
   },
   logo: {
     width: 90, // Adjust the width as needed
@@ -131,7 +152,14 @@ const styles = StyleSheet.create({
   },
   loginLink: {
     fontSize: 16,
-    color: '#4CAF50',
+    color: '#000',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 14,
+    marginVertical: 10,
+    textAlign: 'center',
+    marginTop: 2,
   },
 });
 
