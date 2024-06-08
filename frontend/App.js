@@ -180,11 +180,11 @@ const styles = StyleSheet.create({
   },
   qrButton: {
     position: 'absolute',
-    bottom: 10,
+    bottom: -10,
     alignSelf: 'center',
     backgroundColor: '#88C34A',
-    padding: 25,
-    borderRadius: 50,
+    padding: 20,
+    borderRadius: 100,
     zIndex: 10,
   },
   modalContainer: {
