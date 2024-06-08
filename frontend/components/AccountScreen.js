@@ -9,6 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import PointsMeter from './PointsMeter';
 
 const Stack = createNativeStackNavigator();
 const AccountHomeScreen = ({ navigation }) => {
@@ -32,8 +33,11 @@ const AccountHomeScreen = ({ navigation }) => {
         </View>
       </TouchableOpacity>
         <TouchableOpacity style={styles.pointsBar} onPress={() => navigation.navigate('Points History')}>
-          <Text style={styles.points}>1000 points</Text>
-          <Text style={styles.pointsProgress}>21.15 points to Silver!</Text>
+          <View style={styles.pointsContainer}>
+            <Text style={styles.points}>1000 points</Text>
+            <Text style={styles.pointsProgress}>21.15 points to Silver!</Text>
+          </View>
+          <PointsMeter points={1220} totalPoints={4084.6} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('My Rewards')}>
           <Text style={styles.cardTitle}>My Rewards</Text>
@@ -117,7 +121,6 @@ const AccountHomeScreen = ({ navigation }) => {
       marginHorizontal: 10,
       padding: 20,
       borderRadius: 10,
-      alignItems: 'center',
       marginVertical: 10,
     },
     points: {
@@ -194,6 +197,12 @@ const AccountHomeScreen = ({ navigation }) => {
       right: 0,
       height: 20, // Adjust this value to control the height of the cropped effect
       backgroundColor: "#fff", // Change this to match your background color
+    },
+    pointsContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 10,
     },
   });
   
