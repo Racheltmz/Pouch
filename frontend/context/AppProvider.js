@@ -5,8 +5,6 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
 
-  useEffect(() => {
-  }, [loggedIn])
   return (
     <AppContext.Provider value={{ loggedIn, setLoggedIn }}>
       {children}

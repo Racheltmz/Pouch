@@ -2,15 +2,15 @@ import React, { useContext, useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
 import AppContext from '../context/AppProvider';
 
-const LoginScreen = ( navigation ) => {
-    const { setLoggedIn } = useContext(AppContext);
+const LoginScreen = ({ navigation }) => {
+    // const { setLoggedIn } = useContext(AppContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleLoggedInLink = () => {
         // Navigate to the LoginScreen
         navigation.navigate("Home");
-        setLoggedIn(true);
+        // setLoggedIn(true);
     };
 
     return (
