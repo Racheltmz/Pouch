@@ -10,7 +10,7 @@ const LoginScreen = ({ navigation }) => {
 
   const login = () => {
     // Navigate to the LoginScreen
-    navigation.navigate("Home");
+    navigation.navigate("Main");
   };
 
   return (
