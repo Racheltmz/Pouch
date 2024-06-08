@@ -1,25 +1,124 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Modal, Button, Image } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { StyleSheet, Text, View, TouchableOpacity, Modal, Button, Image, ScrollView, FlatList } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const Tab = createBottomTabNavigator();
+const stores = [
+  {
+    id: "1",
+    name: "stuff'd",
+    location: "Bugis Junction",
+    image: require("../assets/stuffd.jpeg"),
+  },
+  {
+    id: "2",
+    name: "Wok Hey",
+    location: "Bugis Junction",
+    image: require("../assets/wokhey.webp"),
+  },
+  {
+    id: "3",
+    name: "Maki-San",
+    location: "Bugis Junction",
+    image: require("../assets/maki-san.jpeg"),
+  },
+];
+
+const rewards = [
+  {
+    id: "1",
+    name: "stuff'd",
+    discount: "10% OFF",
+    image: require("../assets/stuffd.jpeg"),
+  },
+  {
+    id: "2",
+    name: "Wok Hey",
+    discount: "5% OFF",
+    image: require("../assets/wokhey.webp"),
+  },
+  {
+    id: "3",
+    name: "Maki-San",
+    discount: "4% OFF",
+    image: require("../assets/maki-san.jpeg"),
+  },
+];
 
 const HomeScreen = ({navigation}) => {
+
+  const renderStore = ({ item }) => (
+    <View style={styles.storeCard}> 
+      <View style={styles.imageContainer}>
+        <Image source={item.image} style={styles.storeImage} />
+      </View>     
+        <Text style={styles.storeName}>{item.name}</Text>
+        <View style={styles.storeLocationContainer}>
+          <Icon name="location-on" size={20} color="#888" />
+          <Text style={styles.storeLocation}>{item.location}</Text>
+        </View>
+      </View>
+  );
+
+  const renderRewards = ({ item }) => (
+    <View style={styles.rewardCard}> 
+    <View style={styles.rewardImageContainer}>
+      <Image source={item.image} style={styles.rewardImage} />
+      <View style={styles.croppedBottom} />
+    </View>
+    <View style={styles.rewardDetailsContainer}>
+      <Text style={styles.rewardName}>{item.name}</Text>
+      <Text style={styles.rewardDiscount}>{item.discount}</Text>
+    </View>
+    <Text style={styles.storeLocation}>{item.location}</Text>
+  </View>
+  );
+
   const handleProfilePress = () => {
     // Navigate to AccountScreen
-    navigation.navigate('Account');
+    navigation.navigate("Account");
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.profileContainer} onPress={handleProfilePress}>
-        <Image source={require('../assets/profile-icon.png')} style={styles.profileIcon} />
-        <Text style={styles.profileText}>Welcome{'\n'}Afreen!</Text>
-      </TouchableOpacity>
-      <View style={styles.pointsContainer}>
-          <Text style={styles.pointsContainerText}>Box Text</Text>
+      <View style={styles.profileContainer}>
+        <TouchableOpacity onPress={() => handleProfilePress}>
+          <Image source={require('../assets/profile-icon.png')} style={styles.profileIcon} />
+        </TouchableOpacity>
+        <Text style={styles.profileText}>Welcome Afreen!</Text>
+        <View style={styles.pointsBox}>
+          <Text style={styles.pointsText}>1000 Points</Text>
         </View>
-      <Text>Home Screen</Text>
+      </View>
+
+      <View style={styles.section}>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Suggested for you</Text>
+          <TouchableOpacity onPress={() => navigation.navigate("Stores")}>
+            <Text style={styles.seeAll}>See All</Text>
+          </TouchableOpacity>
+        </View>
+        <FlatList horizontal 
+          data={stores}
+          renderItem={renderStore}
+          keyExtractor={(item) => item.id} 
+          contentContainerStyle={styles.flatListContainer}
+        />
+      </View>
+
+      <View style={styles.section}>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Rewards</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Rewards')}>
+            <Text style={styles.seeAll}>See All</Text>
+          </TouchableOpacity>
+        </View>
+        <FlatList horizontal 
+          data={rewards}
+          renderItem={renderRewards}
+          keyExtractor={(item) => item.id} 
+          contentContainerStyle={styles.flatListContainer}
+        />
+      </View>
     </View>
   );
 };
@@ -27,44 +126,156 @@ const HomeScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff'
+    paddingTop: 20,
+    paddingLeft: 20,
+    backgroundColor: "#fff",
   },
   profileContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 5,
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 10,
+    marginBottom: 10,
   },
   profileIcon: {
     width: 50,
     height: 50,
-    marginLeft: 10,
-    marginTop: 10,
+    marginRight: 10,
   },
   profileText: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginLeft: 17,
-    marginTop: 5,
   },
-  pointsContainer: {
-    height: 30,
-    width: 60,
+  pointsBox: {
+    marginLeft: 'auto',
     backgroundColor: '#88C34A',
-    borderRadius: 5,
-    position: 'absolute',
-    top: 30,
-    right: 80,
     padding: 10,
+    borderRadius: 5,
+    paddingRight: 20,
+    marginRight: 20,
+    alignItems: 'center',
   },
-  pointsContainerText: {
-    fontSize: 16,
-    fontWeight: 'bold',
+  pointsText: {
     color: '#fff',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  section: {
+    marginTop: 20,
+  },
+  flatListContainer: {
+    paddingVertical: 10, // Adjust the padding to give space around the FlatList items
+    paddingHorizontal: 5,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingBottom: 10,
+  },
+  seeAll: {
+    color: '#007BFF',
+    paddingBottom: 15,
+    paddingRight: 20,
+  },
+  storeCard: {
+    width: 280,
+    height: 225,
+    backgroundColor: '#fff',
+    marginRight: 10,
+    borderRadius: 5,
+    borderColor: '#000',
+    borderOpacity: 0.1,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 3,
+    shadowOffset: { width: 0, height: 2 },
+  },
+  imageContainer: {
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 5 },
+    elevation: 5,
+  },
+  storeImage: {
+    marginTop: 10,
+    marginHorizontal: 10,
+    width: 260,
+    alignSelf: "center",
+    height: 150,
+    borderRadius: 10,
+  },
+  storeName: {
+    fontSize: 18,
+    fontWeight: "bold",
+    paddingTop: 7,
+    paddingBottom: 5,
+    paddingLeft: 10,
+    textAlign: 'left',
+  },
+  storeLocationContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingBottom: 6,
+  },
+  storeLocation: {
+    fontSize: 14,
+    paddingHorizontal: 4,
+    textAlign: 'left', 
+  },
+  rewardCard: {
+    width: 190,
+    height: 194,
+    backgroundColor: '#fff',
+    marginRight: 10,
+    borderRadius: 5,
+    borderColor: '#000',
+    borderOpacity: 0.1,
+    shadowColor: "#000",
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 3,
+    shadowOffset: { width: 0, height: 2 },
+  },
+  rewardImage: {
+    height: 155,
+    width: 190,
+    alignSelf: "center",
+  },
+  rewardImageContainer: {
+    borderRadius: 10,
+    overflow: 'hidden',
+  },
+  croppedBottom: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 5, // Adjust this value to control the height of the cropped effect
+    backgroundColor: "#fff", // Change this to match your background color
+  },
+  rewardDetailsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  rewardName: {
+    fontSize: 17,
+    fontWeight: "bold",
+    marginBottom: 5,
+    flex: 1,
+  },
+  rewardDiscount: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    textAlign: 'right',
+    marginBottom: 5, 
   },
 });
 
