@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image } from "react-native";
+import { View, Text, StyleSheet, FlatList, Image, ScrollView } from "react-native";
 
 const rewards = [
   {
@@ -64,6 +64,7 @@ const RewardsScreen = () => {
             </View>
           </View>
         </View>
+        <ScrollView style={styles.overallContainer}>
         {rewards.map((section, index) => (
           <View key={section.id} style={[styles.sectionContainer, index === 0 ? styles.firstSection : null]}>
             <Text style={styles.categoryTitle}>{section.category}</Text>
@@ -77,11 +78,16 @@ const RewardsScreen = () => {
             />
           </View>
         ))}
+        </ScrollView>
       </View>
     );
   };
 
 const styles = StyleSheet.create({
+  overallContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    },
   container: {
     flex: 1,
     backgroundColor: "#f9f9f9",

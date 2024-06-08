@@ -90,6 +90,7 @@ const HomeScreen = ({navigation}) => {
         </View>
       </View>
 
+      <ScrollView style={styles.overallContainer}>
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Suggested for you</Text>
@@ -119,11 +120,17 @@ const HomeScreen = ({navigation}) => {
           contentContainerStyle={styles.flatListContainer}
         />
       </View>
+      </ScrollView>
     </View>
+    
   );
 };
 
 const styles = StyleSheet.create({
+  overallContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
   container: {
     flex: 1,
     paddingTop: 20,
