@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, Image } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-
-const Stack = createStackNavigator();
+import { auth } from '../firebase/config';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const login = () => {
-    // Navigate to the LoginScreen
-    navigation.navigate("Main");
+  const login = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      // Navigate to the LoginScreen
+      navigation.navigate("Main");
+    } catch (err) {
+      alert('Login failed: ' + err.message);
+    }
   };
 
   return (

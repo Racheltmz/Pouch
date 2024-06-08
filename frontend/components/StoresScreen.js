@@ -18,7 +18,9 @@ const images = {
 
 const StoresScreen = () => {
   // Initialise states
+  const [searchQuery, setSearchQuery] = useState("");
   const [stores, setStores] = useState([]);
+  const [displayStores, setDisplayStores] = useState([]);
 
   // Get list of stores
   useEffect(() => {
@@ -34,6 +36,7 @@ const StoresScreen = () => {
         storeList.push(record);
       });
       setStores(storeList);
+      setDisplayStores(storeList);
     })
   }, []);
 
@@ -50,11 +53,20 @@ const StoresScreen = () => {
     </View>
   );
 
+  const handleSearch = (text) => {
+    const filteredStores = stores.filter((store) =>
+      store.name.toLowerCase().includes(text.toLowerCase())
+    );
+    setSearchQuery(text);
+    setDisplayStores(filteredStores);
+  };
+
   return (
     <View style={styles.container}>
-      <TextInput style={styles.searchBar} placeholder="Search" placeholderTextColor="#000" />
+      <TextInput style={styles.searchBar} placeholder="Search" placeholderTextColor="#000" value={searchQuery}
+        onChangeText={handleSearch} />
       <FlatList
-        data={stores}
+        data={displayStores}
         renderItem={renderStore}
         keyExtractor={(item) => item.id}
       />

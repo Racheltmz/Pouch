@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, Image } from 'react-native';
+import { auth } from '../firebase/config';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSignUp = () => {
-    if (email.trim() === '') {
-      setErrorMessage('Email is required to sign up');
-    } else {
-      setErrorMessage('');
-      // Handle sign-up logic here
+  const handleRegister = async () => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      // Navigate to the LoginScreen
+      navigation.navigate("Main");
+    } catch (err) {
+      alert('Login failed: ' + err.message);
     }
   };
-
+  
   const handleGoogleLogin = () => {
     // Navigate to the LoginScreen
     navigation.navigate("Login");
@@ -38,8 +42,14 @@ const RegisterScreen = ({ navigation }) => {
         value={email}
         onChangeText={setEmail}
       />
+      <TextInput
+        style={styles.input}
+        placeholder="password"
+        value={password}
+        onChangeText={setPassword}
+      />
       {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
-      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+      <TouchableOpacity style={styles.button} onPress={handleRegister}>
         <Text style={styles.buttonText}>{capitalizeFirstLetter('Sign') + ' up with email'}</Text>
       </TouchableOpacity>
       <Text style={styles.or}>{capitalizeFirstLetter('or') + ' continue with'}</Text>

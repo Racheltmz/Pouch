@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image } from "react-native";
+import { View, Text, StyleSheet, FlatList, Image, ScrollView } from "react-native";
 import { db } from '../firebase/config.js';
 import { ref, onValue } from 'firebase/database';
 
@@ -76,24 +76,30 @@ const RewardsScreen = () => {
           </View>
         </View>
       </View>
-      {rewards.map((section, index) => (
-        <View key={section.id} style={[styles.sectionContainer, index === 0 ? styles.firstSection : null]}>
-          <Text style={styles.categoryTitle}>{section.category}</Text>
-          <FlatList
-            horizontal
-            data={section.data}
-            renderItem={renderRewardItem}
-            keyExtractor={(item) => item.id}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.rewardList}
-          />
-        </View>
-      ))}
+      <ScrollView style={styles.overallContainer}>
+        {rewards.map((section, index) => (
+          <View key={section.id} style={[styles.sectionContainer, index === 0 ? styles.firstSection : null]}>
+            <Text style={styles.categoryTitle}>{section.category}</Text>
+            <FlatList
+              horizontal
+              data={section.data}
+              renderItem={renderRewardItem}
+              keyExtractor={(item) => item.id}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.rewardList}
+            />
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  overallContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
   container: {
     flex: 1,
     backgroundColor: "#f9f9f9",
