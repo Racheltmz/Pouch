@@ -9,6 +9,7 @@ import SettingsScreen from './components/SettingsScreen';
 import PointsHistoryScreen from './components/PointsHistoryScreen';
 import MyRewardsScreen from './components/MyRewardsScreen';
 import MyReferralsScreen from './components/MyReferralsScreen';
+import GeneralSettings from './components/GeneralSettings';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,9 +34,26 @@ export default function App() {
         />
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="Rewards" component={RewardsScreen} />
-        <Stack.Screen name="PointsHistory" component={PointsHistoryScreen} />
-        <Stack.Screen name="MyRewards" component={MyRewardsScreen} />
-        <Stack.Screen name="MyReferrals" component={MyReferralsScreen} />
+        <Stack.Screen
+          name="PointsHistory"
+          component={PointsHistoryScreen}
+          options={{ title: "Points History" }}
+        />
+        <Stack.Screen
+          name="MyRewards"
+          component={MyRewardsScreen}
+          options={{ title: "My Rewards" }}
+        />
+        <Stack.Screen
+          name="MyReferrals"
+          component={MyReferralsScreen}
+          options={{ title: "My Referrals" }}
+        />
+        <Stack.Screen
+          name="GeneralSettings"
+          component={GeneralSettings}
+          options={{ title: "General Settings" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

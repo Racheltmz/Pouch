@@ -13,6 +13,14 @@ const Tab = createBottomTabNavigator();
 const CustomTabBar = ({ state, descriptors, navigation }) => {
   const [modalVisible, setModalVisible] = React.useState(false);
 
+  const tabLabels = {
+    Home: 'Home',
+    Stores: 'Stores',
+    QRButton: '', // Placeholder for the QR code button, no label needed
+    Rewards: 'Rewards',
+    Account: 'Account',
+  };
+
   return (
     <View style={styles.tabBarContainer}>
       {state.routes.map((route, index) => {
@@ -42,6 +50,8 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
           });
         };
 
+        const label = tabLabels[route.name];
+
         const iconName = options.tabBarIcon ? options.tabBarIcon(isFocused) : 'circle';
 
         return (
@@ -60,8 +70,11 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                 <Icon name="qr-code" color="#fff" size={30} />
               </View>
             ) : (
+            <>
               <Icon name={iconName} color={isFocused ? '#88C34A' : '#222'} size={30} />
-            )}
+              <Text style={{ color: isFocused ? '#88C34A' : '#222' }}>{label}</Text>
+            </>
+          )}
           </TouchableOpacity>
         );
       })}
@@ -125,6 +138,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       justifyContent: 'space-around',
       alignItems: 'center',
+      paddingBottom: 13,
     },
     tabBarItem: {
       flex: 1,
@@ -133,7 +147,7 @@ const styles = StyleSheet.create({
     },
     qrButton: {
       position: 'absolute',
-      bottom: 5,
+      bottom: -15,
       alignSelf: 'center',
       backgroundColor: '#88C34A',
       padding: 25,
