@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
-const SignUpScreen = ({ navigation }) => {
+const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -27,7 +27,7 @@ const SignUpScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Image source={require('./assets/logo.png')} style={styles.logo} />
+      <Image source={require('../assets/logo.png')} style={styles.logo} />
       <Text style={styles.title}>
         {capitalizeFirstLetter('Welcome to')} <Text style={styles.pouch}>Pouch</Text>
       </Text>
@@ -163,4 +163,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUpScreen;
+export default RegisterScreen;

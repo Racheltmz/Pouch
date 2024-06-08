@@ -3,18 +3,13 @@ import { StyleSheet, Text, View, TouchableOpacity, Modal, Button, Image } from '
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import QRCode from 'react-native-qrcode-svg';
+import StoresScreen from './StoresScreen';
 
 const Tab = createBottomTabNavigator();
 
 const ScreenOne = () => (
   <View style={styles.screenContainer}>
     <Text>Screen One</Text>
-  </View>
-);
-
-const ScreenTwo = () => (
-  <View style={styles.screenContainer}>
-    <Text>Screen Two</Text>
   </View>
 );
 
@@ -46,7 +41,7 @@ const HomeScreen = () => {
           options={() => ({
             tabBarIcon: ({ focused }) => (
               <Image
-                source={focused ? require('./assets/home-icon-1.png') : require('./assets/home-icon.png')}
+                source={focused ? require('../assets/home-icon-1.png') : require('../assets/home-icon.png')}
                 style={{ width: 20, height: 20 }}
               />
             ),
@@ -54,11 +49,11 @@ const HomeScreen = () => {
         />
         <Tab.Screen 
           name="Stores" 
-          component={ScreenTwo}
+          component={StoresScreen}
           options={() => ({
             tabBarIcon: ({ focused }) => (
               <Image
-                source={focused ? require('./assets/stores-icon-1.png') : require('./assets/stores-icon.png')}
+                source={focused ? require('../assets/stores-icon-1.png') : require('../assets/stores-icon.png')}
                 style={{ width: 20, height: 20 }}
               />
             ),
@@ -70,7 +65,7 @@ const HomeScreen = () => {
           options={() => ({
             tabBarIcon: ({ focused }) => (
               <Image
-                source={focused ? require('./assets/rewards-icon-1.png') : require('./assets/rewards-icon.png')}
+                source={focused ? require('../assets/rewards-icon-1.png') : require('../assets/rewards-icon.png')}
                 style={{ width: 25, height: 25 }}
               />
             ),
@@ -82,7 +77,7 @@ const HomeScreen = () => {
           options={() => ({
             tabBarIcon: ({ focused }) => (
               <Image
-                source={focused ? require('./assets/account-icon-1.png') : require('./assets/account-icon.png')}
+                source={focused ? require('../assets/account-icon-1.png') : require('../assets/account-icon.png')}
                 style={{ width: 30, height: 30 }}
               />
             ),
@@ -94,7 +89,7 @@ const HomeScreen = () => {
           style={styles.qrButton}
           onPress={() => setModalVisible(true)}
         >
-          <Image source={require('./assets/qr-icon.png')} style={styles.qrIcon} />
+          <Image source={require('../assets/qr-icon.png')} style={styles.qrIcon} />
         </TouchableOpacity>
       </View>
       <Modal
@@ -106,7 +101,7 @@ const HomeScreen = () => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
-              <Image source={require('./assets/close-icon.png')} style={styles.closeIcon} />
+              <Image source={require('../assets/close-icon.png')} style={styles.closeIcon} />
             </TouchableOpacity>
             <Text style={styles.modalText}>My Pouch QR</Text>
             <QRCode value="https://www.youtube.com/watch?v=BbeeuzU5Qc8" size={200} />
