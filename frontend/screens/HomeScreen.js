@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Modal, Button, Image } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import QRCode from 'react-native-qrcode-svg';
-import StoresScreen from './StoresScreen';
-import RewardsScreen from './RewardsScreen';
-import AccountScreen from './AccountScreen';
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Modal,
+  Image,
+} from "react-native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import QRCode from "react-native-qrcode-svg";
+import StoresScreen from "./StoresScreen";
+import RewardsScreen from "./RewardsScreen";
+import AccountScreen from "./AccountScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -24,11 +31,11 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
         const isFocused = state.index === index;
 
         const onPress = () => {
-          if (route.name === 'QRButton') {
+          if (route.name === "QRButton") {
             setModalVisible(true);
           } else {
             const event = navigation.emit({
-              type: 'tabPress',
+              type: "tabPress",
               target: route.key,
               canPreventDefault: true,
             });
@@ -41,12 +48,14 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
 
         const onLongPress = () => {
           navigation.emit({
-            type: 'tabLongPress',
+            type: "tabLongPress",
             target: route.key,
           });
         };
 
-        const iconName = options.tabBarIcon ? options.tabBarIcon(isFocused) : 'circle';
+        const iconName = options.tabBarIcon
+          ? options.tabBarIcon(isFocused)
+          : "circle";
 
         return (
           <TouchableOpacity
@@ -59,12 +68,15 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
             onLongPress={onLongPress}
             style={styles.tabBarItem}
           >
-            {route.name === 'QRButton' ? (
+            {route.name === "QRButton" ? (
               <View style={styles.qrButton}>
-                <Image source={require('../assets/qr-icon.png')} style={styles.qrIcon} />
+                <Image
+                  source={require("../assets/qr-icon.png")}
+                  style={styles.qrIcon}
+                />
               </View>
             ) : (
-              <Image source={iconName} style={{ width: 25, height: 25 }} />
+              <Image source={iconName} style={{ width: 35, height: 35 }} />
             )}
           </TouchableOpacity>
         );
@@ -77,11 +89,20 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
-              <Image source={require('../assets/close-icon.png')} style={styles.closeIcon} />
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setModalVisible(false)}
+            >
+              <Image
+                source={require("../assets/close-icon.png")}
+                style={styles.closeIcon}
+              />
             </TouchableOpacity>
             <Text style={styles.modalText}>My Pouch QR</Text>
-            <QRCode value="https://www.youtube.com/watch?v=BbeeuzU5Qc8" size={200} />
+            <QRCode
+              value="https://www.youtube.com/watch?v=BbeeuzU5Qc8"
+              size={200}
+            />
             <Text style={styles.modalText}>P 128 039</Text>
           </View>
         </View>
@@ -92,16 +113,26 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
 
 const HomeScreen = () => {
   return (
-    <Tab.Navigator tabBar={props => <CustomTabBar {...props} />}>
+    <Tab.Navigator tabBar={(props) => <CustomTabBar {...props} />}>
       <Tab.Screen
         name="Home"
         component={Home}
-        options={{ tabBarIcon: ({ focused }) => focused ? require('../assets/home-icon-1.png') : require('../assets/home-icon.png') }}
+        options={{
+          tabBarIcon: ({ focused }) =>
+            focused
+              ? require("../assets/home-icon-1.png")
+              : require("../assets/home-icon.png"),
+        }}
       />
       <Tab.Screen
         name="Stores"
         component={StoresScreen}
-        options={{ tabBarIcon: ({ focused }) => focused ? require('../assets/stores-icon-1.png') : require('../assets/stores-icon.png') }}
+        options={{
+          tabBarIcon: ({ focused }) =>
+            focused
+              ? require("../assets/stores-icon-1.png")
+              : require("../assets/stores-icon.png"),
+        }}
       />
       <Tab.Screen
         name="QRButton"
@@ -111,12 +142,22 @@ const HomeScreen = () => {
       <Tab.Screen
         name="Rewards"
         component={RewardsScreen}
-        options={{ tabBarIcon: ({ focused }) => focused ? require('../assets/rewards-icon-1.png') : require('../assets/rewards-icon.png') }}
+        options={{
+          tabBarIcon: ({ focused }) =>
+            focused
+              ? require("../assets/rewards-icon-1.png")
+              : require("../assets/rewards-icon.png"),
+        }}
       />
       <Tab.Screen
         name="Account"
         component={AccountScreen}
-        options={{ tabBarIcon: ({ focused }) => focused ? require('../assets/account-icon-1.png') : require('../assets/account-icon.png') }}
+        options={{
+          tabBarIcon: ({ focused }) =>
+            focused
+              ? require("../assets/account-icon-1.png")
+              : require("../assets/account-icon.png"),
+        }}
       />
     </Tab.Navigator>
   );
@@ -125,53 +166,55 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   tabBarContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     height: 75,
     borderTopWidth: 1,
-    borderTopColor: '#ccc',
-    backgroundColor: '#fff',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    borderTopColor: "#ccc",
+    backgroundColor: "#fff",
+    justifyContent: "space-around",
+    alignItems: "center",
   },
   tabBarItem: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   qrButton: {
-    position: 'absolute',
-    bottom: 10,
-    alignSelf: 'center',
-    backgroundColor: '#88C34A',
+    position: "absolute",
+    bottom: 0.5,
+    alignSelf: "center",
+    justifyContent: "center",
+    backgroundColor: "#88C34A",
     padding: 25,
-    borderRadius: 50,
-    zIndex: 10,
+    borderRadius: 60,
+    width: 70,  // Ensure width and height are equal
+    height: 70,
   },
   modalContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalContent: {
     width: 300,
     padding: 20,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   modalText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 30,
     marginTop: 30,
   },
   closeButton: {
-    position: 'absolute',
+    position: "absolute",
     top: 10,
     left: 10,
     zIndex: 1,
@@ -183,6 +226,7 @@ const styles = StyleSheet.create({
   qrIcon: {
     width: 40,
     height: 40,
+    alignSelf: "center",
   },
 });
 
