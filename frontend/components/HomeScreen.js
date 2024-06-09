@@ -224,6 +224,7 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     paddingLeft: 10,
     textAlign: 'left',
+    left: 3,
   },
   storeLocationContainer: {
     flexDirection: 'row',
