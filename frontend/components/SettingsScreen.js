@@ -195,7 +195,10 @@ const SettingsScreen = () => {
               onChangeText={setNewUsername}
               placeholder="Enter new username"
             />
-            <Button title="Save" onPress={handleSaveUsername} />
+            <View style={styles.modalButtonsContainer}>
+              <Button title="Save" onPress={handleSaveUsername} />
+              <Button title="Cancel" onPress={() => {setUsernameModalVisible(false);}} />
+            </View>
           </View>
         </View>
       </Modal>
@@ -214,7 +217,10 @@ const SettingsScreen = () => {
               onChangeText={setNewContactNumber}
               placeholder="Enter new contact number"
             />
-            <Button title="Save" onPress={handleSaveContactNumber} />
+            <View style={styles.modalButtonsContainer}>
+              <Button title="Save" onPress={handleSaveContactNumber} />
+              <Button title="Cancel" onPress={() => {setContactNumberModalVisible(false);}} />
+            </View>
           </View>
         </View>
       </Modal>
@@ -233,7 +239,10 @@ const SettingsScreen = () => {
               onChangeText={setNewContactEmail}
               placeholder="Enter new contact email"
             />
-            <Button title="Save" onPress={handleSaveContactEmail} />
+            <View style={styles.modalButtonsContainer}>
+              <Button title="Save" onPress={handleSaveContactEmail} />
+              <Button title="Cancel" onPress={() => {setContactEmailModalVisible(false);}} />
+            </View>
           </View>
         </View>
       </Modal>
@@ -328,6 +337,12 @@ const styles = StyleSheet.create({
   },
   textUpdate: {
     padding: 10,
+  },
+  modalButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "70%",    
   },
 });
 

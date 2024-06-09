@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,19 +9,42 @@ import {
   Button,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GeneralSettings = () => {
   const [isPushEnabled, setIsPushEnabled] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const navigation = useNavigation();
 
-  const toggleSwitch = () =>
-    setIsPushEnabled((previousState) => !previousState);
+  const toggleSwitch = async () => {
+    const newValue = !isPushEnabled;
+    setIsPushEnabled(newValue);
+    try {
+      await AsyncStorage.setItem('pushNotificationsEnabled', JSON.stringify(newValue));
+    } catch (error) {
+      console.error('Error saving push notification setting:', error);
+    }
+  };
 
   const handleDeleteAccount = () => {
     setDeleteModalVisible(false);
     navigation.navigate("Register");
   };
+
+  useEffect(() => {
+    const loadSwitchState = async () => {
+      try {
+        const storedValue = await AsyncStorage.getItem('pushNotificationsEnabled');
+        if (storedValue !== null) {
+          setIsPushEnabled(JSON.parse(storedValue));
+        }
+      } catch (error) {
+        console.error('Error loading push notification setting:', error);
+      }
+    };
+
+    loadSwitchState();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -124,8 +147,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "70%",
-    
+    width: "70%",    
   },
 });
 
