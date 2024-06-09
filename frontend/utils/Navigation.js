@@ -67,7 +67,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
           >
             {route.name === 'QRButton' ? (
               <View style={styles.qrButton}>
-                <Icon name="qr-code" color="#fff" size={30} />
+                <Image source={require('./assets/qr-icon.png')} style={styles.qrIcon} />
               </View>
             ) : (
             <>
@@ -147,12 +147,13 @@ const styles = StyleSheet.create({
     },
     qrButton: {
       position: 'absolute',
-      bottom: -15,
+      bottom: -10,
       alignSelf: 'center',
       backgroundColor: '#88C34A',
-      padding: 25,
       borderRadius: 50,
       zIndex: 10,
+      width: 70,
+      height: 70,
     },
     modalContainer: {
       flex: 1,
@@ -178,11 +179,17 @@ const styles = StyleSheet.create({
       position: 'absolute',
       top: 10,
       left: 10,
-      zIndex: 1, // Ensure the close button is above other content
+      zIndex: 1, 
     },
     closeIcon: {
       width: 30,
       height: 30,
+    },
+    qrIcon: {
+      width: 60,
+      height: 60,
+      left: 8,
+      top: 5,
     },
   });
 
