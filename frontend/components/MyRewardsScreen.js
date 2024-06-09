@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
   button: {
     borderWidth: 1,
     borderColor: '#88C34A',
-    borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 20,
     shadowColor: '#88C34A',
