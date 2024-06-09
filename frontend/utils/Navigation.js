@@ -67,7 +67,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
           >
             {route.name === 'QRButton' ? (
               <View style={styles.qrButton}>
-                <Image source={require('./assets/qr-icon.png')} style={styles.qrIcon} />
+                <Image source={require('../assets/qr-icon.png')} style={styles.qrIcon} />
               </View>
             ) : (
             <>
