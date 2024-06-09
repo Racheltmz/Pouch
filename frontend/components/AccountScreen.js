@@ -44,6 +44,7 @@ const AccountHomeScreen = ({ navigation }) => {
             <Icon name="chevron-forward-outline" size={30} color="#88C34A" />
           </View>
           <Text style={styles.cardPoints}>3</Text>
+          <Image source={require('../assets/myrewards-icon.png')} style={styles.rewardsCardImage} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('My Referrals')}>
           <View style={styles.cardContent}>
@@ -51,6 +52,7 @@ const AccountHomeScreen = ({ navigation }) => {
             <Icon name="chevron-forward-outline" size={30} color="#88C34A" />
           </View>
           <Text style={styles.cardPoints}>2</Text>
+          <Image source={require('../assets/myreferrals-icon.png')} style={styles.referralsCardImage} />
         </TouchableOpacity>
       </ScrollView>
     );
@@ -163,6 +165,20 @@ const AccountHomeScreen = ({ navigation }) => {
       justifyContent: 'space-between',
       alignItems: 'center',
       width: '102%',
+    },
+    rewardsCardImage: {
+      position: 'absolute',
+      bottom: 10,
+      right: 10,
+      width: 176,
+      height: 120,
+    },
+    referralsCardImage: {
+      position: 'absolute',
+      bottom: 12,
+      right: 12,
+      width: 139,
+      height: 130,
     },
     cardTitle: {
       fontSize: 24,
