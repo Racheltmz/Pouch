@@ -111,7 +111,7 @@ const SettingsScreen = () => {
           <View style={styles.modalContent}>
             <Text style={styles.textUpdate}>Current Username: {username}</Text>
             <Text style={styles.textUpdate}>Are you sure you want to change it?</Text>
-            <View style={styles.modalButtonContainer}>
+            <View style={styles.modalButtonsContainer}>
               <Button
                 title="Yes"
                 onPress={() => {
@@ -137,7 +137,7 @@ const SettingsScreen = () => {
           <View style={styles.modalContent}>
             <Text style={styles.textUpdate}>Current Contact Number: {contactNumber}</Text>
             <Text style={styles.textUpdate}>Are you sure you want to change it?</Text>
-            <View style={styles.modalButtonContainer}>
+            <View style={styles.modalButtonsContainer}>
               <Button
                 title="Yes"
                 onPress={() => {
@@ -163,7 +163,7 @@ const SettingsScreen = () => {
           <View style={styles.modalContent}>
             <Text style={styles.textUpdate}>Current Contact Email: {contactEmail}</Text>
             <Text style={styles.textUpdate}>Are you sure you want to change it?</Text>
-            <View style={styles.modalButtonContainer}>
+            <View style={styles.modalButtonsContainer}>
               <Button
                 title="Yes"
                 onPress={() => {
