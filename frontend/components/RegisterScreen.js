@@ -12,13 +12,12 @@ const RegisterScreen = ({ navigation }) => {
   const handleRegister = async () => {
     try {
       const response = await createUserWithEmailAndPassword(auth, email, password);
-      const newUID = response.uid;
-      console.log(newUID);
-      set(ref(db, '/users/', newUID), {
+      const newUID = response._tokenResponse.localId;
+      set(ref(db, '/users/' + newUID), {
         username: capitalizeFirstLetter(email.split('@')[0]),
         points: 0,
-        history: [],
-        rewards: [],
+        history: {},
+        rewards: {},
       });
       // Navigate to the LoginScreen
       navigation.navigate("Login");
