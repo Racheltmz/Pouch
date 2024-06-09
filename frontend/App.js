@@ -16,6 +16,7 @@ import PointsHistoryScreen from './components/PointsHistoryScreen';
 import MyRewardsScreen from './components/MyRewardsScreen';
 import MyReferralsScreen from './components/MyReferralsScreen';
 import QRCodeScreen from './components/QRCodeScreen';
+import GeneralSettings from "./components/GeneralSettings";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -160,10 +161,31 @@ export default function App() {
         />
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="Rewards" component={RewardsScreen} />
-        <Stack.Screen name="Points History" component={PointsHistoryScreen} />
-        <Stack.Screen name="My Rewards" component={MyRewardsScreen} />
-        <Stack.Screen name="My Referrals" component={MyReferralsScreen} />
-        <Stack.Screen name="QR Code" component={QRCodeScreen} />
+        <Stack.Screen 
+          name="Points History" 
+          component={PointsHistoryScreen}
+          options={{ title: "Points History" }} 
+        />
+        <Stack.Screen
+          name="MyRewards"
+          component={MyRewardsScreen}
+          options={{ title: "My Rewards" }}
+        />
+        <Stack.Screen
+          name="MyReferrals"
+          component={MyReferralsScreen}
+          options={{ title: "My Referrals" }}
+        />
+        <Stack.Screen
+          name="GeneralSettings"
+          component={GeneralSettings}
+          options={{ title: "General Settings" }}
+        />
+        <Stack.Screen 
+          name="QR Code" 
+          component={QRCodeScreen} 
+          options={{ title: "QR Code Redemption" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
