@@ -1,55 +1,64 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Modal, Button, Image, ScrollView, FlatList } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { db } from '../firebase/config.js';
+import { ref, onValue } from 'firebase/database';
 
-const stores = [
-  {
-    id: "1",
-    name: "stuff'd",
-    location: "Bugis Junction",
-    image: require("../assets/stuffd.jpeg"),
-  },
-  {
-    id: "2",
-    name: "Wok Hey",
-    location: "Bugis Junction",
-    image: require("../assets/wokhey.webp"),
-  },
-  {
-    id: "3",
-    name: "Maki-San",
-    location: "Bugis Junction",
-    image: require("../assets/maki-san.jpeg"),
-  },
-];
+const storesImages = {
+  1: require("../assets/stuffd.jpeg"),
+  2: require("../assets/wokhey.webp"),
+  3: require("../assets/maki-san.jpeg"),
+};
 
-const rewards = [
-  {
-    id: "1",
-    name: "stuff'd",
-    discount: "10% OFF",
-    image: require("../assets/stuffd.jpeg"),
-  },
-  {
-    id: "2",
-    name: "Wok Hey",
-    discount: "5% OFF",
-    image: require("../assets/wokhey.webp"),
-  },
-  {
-    id: "3",
-    name: "Maki-San",
-    discount: "4% OFF",
-    image: require("../assets/maki-san.jpeg"),
-  },
-];
+const rewardsImages = {
+  1: require("../assets/stuffd-logo.jpeg"),
+  2: require("../assets/makisan-logo.jpeg"),
+  3: require("../assets/namkeepau-logo.jpeg"),
+  4: require("../assets/pezzo-logo.png"),
+};
 
 const HomeScreen = ({navigation}) => {
+  const [stores, setStores] = useState([]);
+  const [rewards, setRewards] = useState([]);
+ 
+  // Get list of stores
+  useEffect(() => {
+    return onValue(ref(db, '/stores'), querySnapShot => {
+      let data = querySnapShot.val() || {};
+      let listing = { ...data };
+      let storeList = [];
+      let count = 0;
+      Object.entries(listing).map(entry => {
+        let record = entry[1];
+        record.id = count + 1;
+        count++;
+        storeList.push(record);
+      });
+      setStores(storeList);
+    })
+  }, []);
+
+  // Get list of rewards
+  useEffect(() => {
+    return onValue(ref(db, '/rewards'), querySnapShot => {
+      let data = querySnapShot.val() || {};
+      let listing = { ...data };
+      let rewardList = [];
+      let count = 0;
+      Object.entries(listing).map(entry => {
+        let record = entry[1];
+        record.id = count + 1;
+        count++;
+        rewardList.push(record);
+      });
+      setRewards(rewardList);
+    })
+  }, []);
 
   const renderStore = ({ item }) => (
     <View style={styles.storeCard}> 
       <View style={styles.imageContainer}>
-        <Image source={item.image} style={styles.storeImage} />
+        <Image source={storesImages[item.id]} style={styles.storeImage} />
       </View>     
         <Text style={styles.storeName}>{item.name}</Text>
         <View style={styles.storeLocationContainer}>
@@ -62,12 +71,12 @@ const HomeScreen = ({navigation}) => {
   const renderRewards = ({ item }) => (
     <View style={styles.rewardCard}> 
     <View style={styles.rewardImageContainer}>
-      <Image source={item.image} style={styles.rewardImage} />
+      <Image source={rewardsImages[item.id]} style={styles.rewardImage} />
       <View style={styles.croppedBottom} />
     </View>
     <View style={styles.rewardDetailsContainer}>
       <Text style={styles.rewardName}>{item.name}</Text>
-      <Text style={styles.rewardDiscount}>{item.discount}</Text>
+      <Text style={styles.rewardDiscount}>{item.description}</Text>
     </View>
     <Text style={styles.storeLocation}>{item.location}</Text>
   </View>
@@ -89,8 +98,6 @@ const HomeScreen = ({navigation}) => {
           <Text style={styles.pointsText}>1000 Points</Text>
         </View>
       </View>
-
-      <View style={styles.line} />
 
       <ScrollView style={styles.overallContainer}>
       <View style={styles.section}>
@@ -124,7 +131,6 @@ const HomeScreen = ({navigation}) => {
       </View>
       </ScrollView>
     </View>
-    
   );
 };
 
@@ -166,7 +172,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
-    left: 4,
   },
   section: {
     marginTop: 20,
@@ -195,7 +200,7 @@ const styles = StyleSheet.create({
     height: 225,
     backgroundColor: '#fff',
     marginRight: 10,
-    borderRadius: 15,
+    borderRadius: 10,
     borderColor: '#000',
     borderOpacity: 0.1,
     shadowColor: "#000",
@@ -226,7 +231,6 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     paddingLeft: 10,
     textAlign: 'left',
-    left: 3,
   },
   storeLocationContainer: {
     flexDirection: 'row',
@@ -241,10 +245,10 @@ const styles = StyleSheet.create({
   },
   rewardCard: {
     width: 190,
-    height: 194,
+    height: 210,
     backgroundColor: '#fff',
     marginRight: 10,
-    borderRadius: 15,
+    borderRadius: 10,
     borderColor: '#000',
     borderOpacity: 0.1,
     shadowColor: "#000",
@@ -271,8 +275,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff", // Change this to match your background color
   },
   rewardDetailsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     paddingHorizontal: 10,
     paddingVertical: 5,
   },
@@ -280,20 +282,11 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "bold",
     marginBottom: 5,
-    flex: 1,
   },
   rewardDiscount: {
-    fontSize: 17,
+    fontSize: 12,
     fontWeight: 'bold',
-    textAlign: 'right',
     marginBottom: 5, 
-  },
-  line: {
-    height: 1,
-    backgroundColor: "#ccc",
-    opacity: 0.5,
-    width: 410,
-    right: 20,
   },
 });
 

@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -6,54 +7,58 @@ import {
   FlatList,
   Image,
 } from "react-native";
-import React, { useState } from "react";
+import { db } from '../firebase/config.js';
+import { ref, onValue } from 'firebase/database';
 
-const storesData = [
-  {
-    id: "1",
-    name: "stuff'd",
-    location: "Bugis Junction",
-    distance: "0.4km away",
-    image: require("../assets/stuffd.jpeg"),
-  },
-  {
-    id: "2",
-    name: "Wok Hey",
-    location: "Bugis Junction",
-    distance: "0.4km away",
-    image: require("../assets/wokhey.webp"),
-  },
-  {
-    id: "3",
-    name: "Maki-San",
-    location: "Bugis Junction",
-    distance: "0.4km away",
-    image: require("../assets/maki-san.jpeg"),
-  },
-];
+const images = {
+  1: require("../assets/stuffd.jpeg"),
+  2: require("../assets/wokhey.webp"),
+  3: require("../assets/maki-san.jpeg"),
+};
 
 const StoresScreen = () => {
+  // Initialise states
   const [searchQuery, setSearchQuery] = useState("");
-  const [stores, setStores] = useState(storesData);
+  const [stores, setStores] = useState([]);
+  const [displayStores, setDisplayStores] = useState([]);
+
+  // Get list of stores
+  useEffect(() => {
+    return onValue(ref(db, '/stores'), querySnapShot => {
+      let data = querySnapShot.val() || {};
+      let listing = { ...data };
+      let storeList = [];
+      let count = 0;
+      Object.entries(listing).map(entry => {
+        let record = entry[1];
+        record.id = count + 1;
+        count++;
+        storeList.push(record);
+      });
+      setStores(storeList);
+      setDisplayStores(storeList);
+    })
+  }, []);
+
   const renderStore = ({ item }) => (
-    <View style={styles.storeCard}>      
-    <Text style={styles.storeName}>{item.name}</Text>
+    <View style={styles.storeCard}>
+      <Text style={styles.storeName}>{item.name}</Text>
       <View style={styles.imageContainer}>
-        <Image source={item.image} style={styles.storeImage} />
+        <Image source={images[item.id]} style={styles.storeImage} />
       </View>
       <View style={styles.storeDetails}>
         <Text style={styles.storeLocation}>{item.location}</Text>
-        <Text style={styles.storeDistance}>{item.distance}</Text>
+        <Text style={styles.storeDistance}>{item.distance + "km away"}</Text>
       </View>
     </View>
   );
 
   const handleSearch = (text) => {
-    const filteredStores = storesData.filter((store) =>
+    const filteredStores = stores.filter((store) =>
       store.name.toLowerCase().includes(text.toLowerCase())
     );
     setSearchQuery(text);
-    setStores(filteredStores);
+    setDisplayStores(filteredStores);
   };
 
   return (
@@ -61,7 +66,7 @@ const StoresScreen = () => {
       <TextInput style={styles.searchBar} placeholder="Search" placeholderTextColor="#000" value={searchQuery}
         onChangeText={handleSearch} />
       <FlatList
-        data={stores}
+        data={displayStores}
         renderItem={renderStore}
         keyExtractor={(item) => item.id}
       />

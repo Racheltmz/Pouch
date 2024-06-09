@@ -243,7 +243,7 @@ const SettingsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: "#fff",
     padding: 20,
   },
   settingOption: {
@@ -254,9 +254,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 10,
+    borderWidth: 0.5,
+    borderColor: "#ccc",
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 0.5,
+    shadowOffset: { width: 0, height: 2 },
   },
   settingText: {
     fontSize: 16,
+    color: "#495057",
   },
   arrow: {
     fontSize: 16,
@@ -269,13 +276,23 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     backgroundColor: "#fff",
-    borderRadius: 10,
-    padding: 15,
-    alignItems: "center",
+    borderRadius: 50,
+    padding: 10,
+    width: "40%",
+    justifyContent: "center", 
+    alignSelf: "center", 
+    borderWidth: 1.5,
+    borderColor: "red",
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 0.5,
+    shadowOffset: { width: 0, height: 2.3 },
   },
   logoutText: {
     fontSize: 16,
-    color: "#88C34A",
+    color: "black",
+    fontWeight: "bold",
+    alignSelf: "center",
   },
   modalContainer: {
     flex: 1,
@@ -287,8 +304,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: "center",
-    marginTop: 10,
-    
+    marginTop: 10, 
   },
   modalContent: {
     width: 300,
