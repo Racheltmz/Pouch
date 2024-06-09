@@ -4,7 +4,6 @@ import { AppContext } from '../context/AppContext';
 
 const MyRewardsScreen = () => {
   const { curUser } = useContext(AppContext);
-  console.log(curUser.rewards);
   return (
     <View style={styles.container}>
       <Text>My Rewards Screen</Text>
