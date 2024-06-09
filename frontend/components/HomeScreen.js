@@ -90,7 +90,7 @@ const HomeScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.profileContainer}>
-        <TouchableOpacity onPress={() => handleProfilePress}>
+        <TouchableOpacity onPress={handleProfilePress}>
           <Image source={require('../assets/profile-icon.png')} style={styles.profileIcon} />
         </TouchableOpacity>
         <Text style={styles.profileText}>Welcome Afreen!</Text>
