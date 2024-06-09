@@ -6,7 +6,7 @@ const CardsScreen = () => {
   const navigation = useNavigation();
 
   const handlePress = () => {
-    navigation.navigate("QR Code");
+    navigation.navigate("QRCode");
   };
 
   const cardItems = [

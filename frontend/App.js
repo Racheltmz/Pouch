@@ -9,6 +9,7 @@ import SettingsScreen from './components/SettingsScreen';
 import PointsHistoryScreen from './components/PointsHistoryScreen';
 import MyRewardsScreen from './components/MyRewardsScreen';
 import MyReferralsScreen from './components/MyReferralsScreen';
+import QrCodeScreen from './components/QRCodeScreen';
 import GeneralSettings from './components/GeneralSettings';
 import { AppProvider } from './context/AppContext';
 
@@ -42,12 +43,17 @@ export default function App() {
             options={{ title: "Points History" }}
           />
           <Stack.Screen
-            name="My Rewards"
+            name="QRCode"
+            component={QrCodeScreen}
+            options={{ title: "QR Code Redemption" }}
+          />
+          <Stack.Screen
+            name="MyRewards"
             component={MyRewardsScreen}
             options={{ title: "My Rewards" }}
           />
           <Stack.Screen
-            name="My Referrals"
+            name="MyReferrals"
             component={MyReferralsScreen}
             options={{ title: "My Referrals" }}
           />
