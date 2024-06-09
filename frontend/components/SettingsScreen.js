@@ -249,12 +249,14 @@ const styles = StyleSheet.create({
   settingOption: {
     backgroundColor: "#fff",
     borderRadius: 10,
+    maxHeight: 50,
     padding: 15,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 10,
     borderWidth: 0.5,
+    borderRadius: 17,
     borderColor: "#ccc",
     shadowColor: '#000',
     shadowOpacity: 0.3,
@@ -267,7 +269,7 @@ const styles = StyleSheet.create({
   },
   arrow: {
     fontSize: 16,
-    color: "#ccc",
+    color: "#88C34A",
   },
   divider: {
     height: 1,
@@ -278,7 +280,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 50,
     padding: 10,
-    width: "40%",
+    width: "60%",
     justifyContent: "center", 
     alignSelf: "center", 
     borderWidth: 1.5,

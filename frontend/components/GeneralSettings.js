@@ -41,7 +41,7 @@ const GeneralSettings = () => {
         style={styles.option}
         onPress={() => setDeleteModalVisible(true)}
       >
-        <Text style={styles.settingText}>Delete Account</Text>
+        <Text style={[styles.settingText, { color: 'red' }]}>Delete Account</Text>
       </TouchableOpacity>
 
       <Modal
@@ -79,12 +79,13 @@ const styles = StyleSheet.create({
   },
   option: {
     width: "100%",
+    maxHeight: 50,
     padding: 15,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 10,
-    borderRadius: 10,
+    borderRadius: 17,
     borderWidth: 0.5,
     borderColor: "#ccc",
     shadowColor: "#000",
