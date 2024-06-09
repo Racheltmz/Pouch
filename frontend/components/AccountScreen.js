@@ -31,14 +31,14 @@ const AccountHomeScreen = ({ navigation }) => {
           <Image source={require('../assets/groceries-icon.png')} style={styles.groceriesIcon} />
         </View>
       </View>
-        <TouchableOpacity style={styles.pointsBar} onPress={() => navigation.navigate('Points History')}>
+        <TouchableOpacity style={styles.pointsBar} onPress={() => navigation.navigate('PointsHistory')}>
           <View style={styles.pointsContainer}>
             <Text style={styles.points}>1000 points</Text>
             <Text style={styles.pointsProgress}>21.15 points to Silver!</Text>
           </View>
           <PointsMeter points={1220} totalPoints={4084.6} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('My Rewards')}>
+        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('MyRewards')}>
           <View style={styles.cardContent}>
             <Text style={styles.cardTitle}>My Rewards</Text>
             <Icon name="chevron-forward-outline" size={30} color="#88C34A" />
@@ -46,7 +46,7 @@ const AccountHomeScreen = ({ navigation }) => {
           <Text style={styles.cardPoints}>3</Text>
           <Image source={require('../assets/myrewards-icon.png')} style={styles.rewardsCardImage} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('My Referrals')}>
+        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('MyReferrals')}>
           <View style={styles.cardContent}>
             <Text style={styles.cardTitle}>My Referrals</Text>
             <Icon name="chevron-forward-outline" size={30} color="#88C34A" />
