@@ -90,6 +90,8 @@ const HomeScreen = ({navigation}) => {
         </View>
       </View>
 
+      <View style={styles.line} />
+
       <ScrollView style={styles.overallContainer}>
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
@@ -285,6 +287,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'right',
     marginBottom: 5, 
+  },
+  line: {
+    height: 1,
+    backgroundColor: "#ccc",
+    opacity: 0.5,
+    width: 410,
+    right: 20,
   },
 });
 
