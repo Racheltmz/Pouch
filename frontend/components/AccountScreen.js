@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator();
 const AccountHomeScreen = ({ navigation }) => {
     return (
       <ScrollView style={styles.container}>
-        <TouchableOpacity style={styles.greenCard} onPress={() => navigation.navigate('Rewards')}>
+        <View style={styles.greenCard}>
         <View style={styles.greenCardContent}>
           <Text style={styles.greenCardText}>Green</Text>
           <TouchableOpacity style={styles.claimRewardsContainer} onPress={() => navigation.navigate('Rewards')}>
@@ -27,11 +27,10 @@ const AccountHomeScreen = ({ navigation }) => {
         <View style={styles.userNameText}>
           <Text style={styles.greenCardText}>Afreen</Text>
         </View>
-        <View style={styles.croppedImageContainer}>
+        <View style={styles.groceriesIcon}>
           <Image source={require('../assets/groceries-icon.png')} style={styles.groceriesIcon} />
-          <View style={styles.croppedBottom} />
         </View>
-      </TouchableOpacity>
+      </View>
         <TouchableOpacity style={styles.pointsBar} onPress={() => navigation.navigate('Points History')}>
           <View style={styles.pointsContainer}>
             <Text style={styles.points}>1000 points</Text>
@@ -40,11 +39,18 @@ const AccountHomeScreen = ({ navigation }) => {
           <PointsMeter points={1220} totalPoints={4084.6} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('My Rewards')}>
-          <Text style={styles.cardTitle}>My Rewards</Text>
+          <View style={styles.cardContent}>
+            <Text style={styles.cardTitle}>My Rewards</Text>
+            <Icon name="chevron-forward-outline" size={30} color="#88C34A" />
+          </View>
           <Text style={styles.cardPoints}>3</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('My Referrals')}>
-          <Text style={styles.cardTitle}>My Referrals</Text>
+          <View style={styles.cardContent}>
+            <Text style={styles.cardTitle}>My Referrals</Text>
+            <Icon name="chevron-forward-outline" size={30} color="#88C34A" />
+          </View>
+          <Text style={styles.cardPoints}>2</Text>
         </TouchableOpacity>
       </ScrollView>
     );
@@ -82,7 +88,7 @@ const AccountHomeScreen = ({ navigation }) => {
     },
     container: {
       flex: 1,
-      backgroundColor: '#f9f9f9',
+      backgroundColor: '#fff',
     },
     header: {
       flexDirection: 'row',
@@ -107,9 +113,13 @@ const AccountHomeScreen = ({ navigation }) => {
       height: 200,
       width: 360,
       borderRadius: 10,
-      marginVertical: 8,
+      marginTop: 8,
       paddingLeft: 20,
       alignSelf: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 5 },
+      shadowOpacity: 0.3,
+      shadowRadius: 5,
     },
     greenCardText: {
       fontSize: 18,
@@ -134,22 +144,36 @@ const AccountHomeScreen = ({ navigation }) => {
     },
     card: {
       backgroundColor: '#fff',
+      height: 200,
+      width: 360,
       marginHorizontal: 10,
       padding: 20,
+      bottom: 20,
       borderRadius: 10,
-      alignItems: 'center',
+      alignItems: 'flex-start',
       marginVertical: 10,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 5 },
+      shadowOpacity: 0.3,
+      shadowRadius: 5,
+      alignSelf: 'center',
+    },
+    cardContent: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      width: '102%',
     },
     cardTitle: {
-      fontSize: 18,
-      color: '#000',
+      fontSize: 24,
+      color: '#88C34A',
       fontWeight: 'bold',
     },
     cardPoints: {
       fontSize: 24,
       color: '#88C34A',
       fontWeight: 'bold',
-      marginTop: 10,
+      paddingTop: 105,
     },
     greenCardContent: {
     flexDirection: 'row',
@@ -179,24 +203,11 @@ const AccountHomeScreen = ({ navigation }) => {
       backgroundColor: 'transparent',
       padding: 20,
     },
-    croppedImageContainer: {
-      position: 'absolute',
-      bottom: -20, 
-      right: 20, 
-      overflow: 'hidden', 
-      borderRadius: 15, 
-    },
     groceriesIcon: {
-      width: 170,
-      height: 170,
-    },
-    croppedBottom: {
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      height: 20, // Adjust this value to control the height of the cropped effect
-      backgroundColor: "#fff", // Change this to match your background color
+      width: 162,
+      height: 139,
+      paddingLeft: 160,
+      bottom: 2,
     },
     pointsContainer: {
       flexDirection: 'row',
