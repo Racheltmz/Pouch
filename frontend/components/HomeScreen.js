@@ -172,6 +172,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
+    left: 4,
   },
   section: {
     marginTop: 20,
