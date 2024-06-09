@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const CardsScreen = () => {
@@ -25,19 +25,21 @@ const CardsScreen = () => {
   ];
 
   return (
-    <View style={styles.container}>
-      {cardItems.map((item, index) => (
-        <View key={index} style={styles.card}>
-          <View style={styles.cardContent}>
-            <Text style={styles.cardTitle}>{item.title}</Text>
-            <Text style={styles.cardSubtitle}>{item.subtitle}</Text>
+      <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        {cardItems.map((item, index) => (
+          <View key={index} style={styles.card}>
+            <View style={styles.cardContent}>
+              <Text style={styles.cardTitle}>{item.title}</Text>
+              <Text style={styles.cardSubtitle}>{item.subtitle}</Text>
+            </View>
+            <TouchableOpacity style={styles.button} onPress={handlePress}>
+              <Text style={styles.buttonText}>Use Now</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.button} onPress={handlePress}>
-            <Text style={styles.buttonText}>Use Now</Text>
-          </TouchableOpacity>
-        </View>
-      ))}
-    </View>
+        ))}
+        </ScrollView>
+      </View>
   );
 };
 
@@ -98,6 +100,9 @@ const styles = StyleSheet.create({
     color: '#000',
     fontWeight: 'bold',
     fontSize: 17,
+  },
+  scrollViewContent: {
+    flexGrow: 1,
   },
 });
 
