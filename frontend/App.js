@@ -167,12 +167,12 @@ export default function App() {
           options={{ title: "Points History" }} 
         />
         <Stack.Screen
-          name="MyRewards"
+          name="My Rewards"
           component={MyRewardsScreen}
           options={{ title: "My Rewards" }}
         />
         <Stack.Screen
-          name="MyReferrals"
+          name="My Referrals"
           component={MyReferralsScreen}
           options={{ title: "My Referrals" }}
         />
