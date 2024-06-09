@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import { initializeAuth, getAuth, getReactNativePersistence } from "firebase/auth";
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
-import { REACT_APP_FIREBASE_API_KEY, REACT_APP_AUTH_DOMAIN, REACT_APP_DB_URL, REACT_APP_PROJECT_ID, REACT_APP_STORAGE_BUCKET, REACT_APP_SENDERID, REACT_APP_APPID, REACT_APP_MEASUREMENTID } from "@env"
+import { REACT_APP_FIREBASE_API_KEY, REACT_APP_AUTH_DOMAIN, REACT_APP_DB_URL, REACT_APP_PROJECT_ID, REACT_APP_STORAGE_BUCKET, REACT_APP_SENDERID, REACT_APP_APPID, REACT_APP_MEASUREMENTID } from "@env";
 
 // Firebase configuration
 const firebaseConfig = {
