@@ -1,64 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, ScrollView } from "react-native";
-import { db } from '../firebase/config.js';
-import { ref, onValue } from 'firebase/database';
-
-const rewardsLayout = [
-  {
-    id: "1",
-    category: "Under 999 Points"
-  },
-  {
-    id: "2",
-    category: "1000 Points & Above"
-  },
-]
-
-const images = {
-  1: require("../assets/stuffd-logo.jpeg"),
-  2: require("../assets/makisan-logo.jpeg"),
-  3: require("../assets/namkeepau-logo.jpeg"),
-  4: require("../assets/pezzo-logo.png"),
-};
+import { AppContext } from '../context/AppContext.js';
 
 const RewardsScreen = () => {
   // Initialise states
-  const [points, setPoints] = useState(0);
-  const [rewards, setRewards] = useState([]);
-
-  // Get user's points
-  // useEffect(() => {
-  //   return onValue(ref(db, '/users'), querySnapShot => {
-  //     let data = querySnapShot.val() || {};
-  //   })
-  // }, []);
-  // Get list of rewards
-  useEffect(() => {
-    return onValue(ref(db, '/rewards'), querySnapShot => {
-      let data = querySnapShot.val() || {};
-      let listing = { ...data };
-      let over1000 = [];
-      let under1000 = [];
-      let count = 0;
-      Object.entries(listing).map(entry => {
-        let record = entry[1];
-        record.id = count + 1;
-        if (record.points < 1000) {
-          under1000.push(record);
-        } else {
-          over1000.push(record);
-        }
-        count++;
-      });
-      rewardsLayout[0].data = under1000;
-      rewardsLayout[1].data = over1000;
-      setRewards(rewardsLayout);
-    })
-  }, []);
+  const { curUser, rewardsCategorised } = useContext(AppContext);
 
   const renderRewardItem = ({ item }) => (
     <View style={styles.rewardCard}>
-      <Image source={images[item.id]} style={styles.rewardImage} />
+      <Image source={item.image} style={styles.rewardImage} />
       <Text style={styles.rewardName}>{item.name}</Text>
       <Text style={styles.rewardDescription}>{item.description}</Text>
       <Text style={styles.rewardPoints}>{item.points}</Text>
@@ -71,13 +21,13 @@ const RewardsScreen = () => {
         <Text style={styles.memberStatus}>You are a Green Member!</Text>
         <View style={styles.greenRectangle}>
           <View style={styles.pointsContainer}>
-            <Text style={styles.points}>1000</Text>
+            <Text style={styles.points}>{curUser.points}</Text>
             <Text style={styles.pointsLabel}>Points</Text>
           </View>
         </View>
       </View>
       <ScrollView style={styles.overallContainer}>
-        {rewards.map((section, index) => (
+        {rewardsCategorised.map((section, index) => (
           <View key={section.id} style={[styles.sectionContainer, index === 0 ? styles.firstSection : null]}>
             <Text style={styles.categoryTitle}>{section.category}</Text>
             <FlatList

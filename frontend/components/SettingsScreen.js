@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
@@ -9,8 +9,10 @@ import {
   Button,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { AppContext } from "../context/AppContext";
 
 const SettingsScreen = () => {
+  const { setUID } = useContext(AppContext);
   const [usernameModalVisible, setUsernameModalVisible] = useState(false);
   const [contactNumberModalVisible, setContactNumberModalVisible] =
     useState(false);
@@ -34,6 +36,7 @@ const SettingsScreen = () => {
 
   const handleLogout = () => {
     navigation.navigate("Register");
+    setUID(null);
   };
 
   const handleSaveUsername = () => {

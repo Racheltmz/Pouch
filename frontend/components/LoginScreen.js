@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, Image } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
 import { auth } from '../firebase/config';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { AppContext } from '../context/AppContext';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { setUID } = useContext(AppContext);
 
   const login = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      onAuthStateChanged(auth, (user) => {
+        if (user)
+          setUID(user.uid);
+      });
       // Navigate to the LoginScreen
       navigation.navigate("Main");
     } catch (err) {

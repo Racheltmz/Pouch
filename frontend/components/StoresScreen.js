@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   View,
   Text,
@@ -7,44 +7,20 @@ import {
   FlatList,
   Image,
 } from "react-native";
-import { db } from '../firebase/config.js';
-import { ref, onValue } from 'firebase/database';
-
-const images = {
-  1: require("../assets/stuffd.jpeg"),
-  2: require("../assets/wokhey.webp"),
-  3: require("../assets/maki-san.jpeg"),
-};
+import { AppContext } from '../context/AppContext';
 
 const StoresScreen = () => {
   // Initialise states
+  const { stores } = useContext(AppContext);
+  const [displayStores, setDisplayStores] = useState(stores);
   const [searchQuery, setSearchQuery] = useState("");
-  const [stores, setStores] = useState([]);
-  const [displayStores, setDisplayStores] = useState([]);
 
-  // Get list of stores
-  useEffect(() => {
-    return onValue(ref(db, '/stores'), querySnapShot => {
-      let data = querySnapShot.val() || {};
-      let listing = { ...data };
-      let storeList = [];
-      let count = 0;
-      Object.entries(listing).map(entry => {
-        let record = entry[1];
-        record.id = count + 1;
-        count++;
-        storeList.push(record);
-      });
-      setStores(storeList);
-      setDisplayStores(storeList);
-    })
-  }, []);
 
   const renderStore = ({ item }) => (
     <View style={styles.storeCard}>
       <Text style={styles.storeName}>{item.name}</Text>
       <View style={styles.imageContainer}>
-        <Image source={images[item.id]} style={styles.storeImage} />
+        <Image source={item.image} style={styles.storeImage} />
       </View>
       <View style={styles.storeDetails}>
         <Text style={styles.storeLocation}>{item.location}</Text>
