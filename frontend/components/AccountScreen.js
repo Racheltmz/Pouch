@@ -46,7 +46,7 @@ const AccountHomeScreen = ({ navigation }) => {
           <Text style={styles.cardPoints}>3</Text>
           <Image source={require('../assets/myrewards-icon.png')} style={styles.rewardsCardImage} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('MyReferrals')}>
+        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('My Referrals')}>
           <View style={styles.cardContent}>
             <Text style={styles.cardTitle}>My Referrals</Text>
             <Icon name="chevron-forward-outline" size={30} color="#88C34A" />
@@ -78,6 +78,8 @@ const AccountHomeScreen = ({ navigation }) => {
       flexDirection: 'row',
       alignItems: 'center',
       paddingLeft: 5,
+      top: 6,
+      left: 4,
     },
     profileIcon: {
       width: 50,
@@ -106,6 +108,7 @@ const AccountHomeScreen = ({ navigation }) => {
     },
     settingsIcon: {
       marginRight: 10,
+      top: 6,
     },
     greenCard: {
       backgroundColor: '#88C34A',

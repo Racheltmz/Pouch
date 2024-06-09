@@ -148,7 +148,8 @@ const styles = StyleSheet.create({
   profileContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: -3,
+    bottom: 3,
   },
   profileIcon: {
     width: 50,
