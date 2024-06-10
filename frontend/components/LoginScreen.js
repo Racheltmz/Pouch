@@ -33,14 +33,17 @@ const LoginScreen = ({ navigation }) => {
       <TextInput
         style={styles.input}
         placeholder="email@domain.com"
+        placeholderTextColor="#828282"
         value={email}
         onChangeText={setEmail}
       />
       <TextInput
         style={styles.input}
         placeholder="password"
+        placeholderTextColor="#828282"
         value={password}
         onChangeText={setPassword}
+        secureTextEntry={true}
       />
       <TouchableOpacity style={styles.button} onPress={login}>
         <Text style={styles.buttonText}>{capitalizeFirstLetter('Login')} </Text>
@@ -90,8 +93,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 20,
-    fontStyle: 'italic',
-    color: '#828282'
+    color: '#000'
   },
   button: {
     width: '80%',
@@ -107,8 +109,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   logo: {
-    width: 90, // Adjust the width as needed
-    height: 90, // Adjust the height as needed
+    width: 90,
+    height: 90,
     marginBottom: 20,
   },
   label: {

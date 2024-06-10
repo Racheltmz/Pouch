@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AppContext } from "../context/AppContext";
 
 const SettingsScreen = () => {
-  const { setUID } = useContext(AppContext);
+  const { curUser, updateUsername, updateContactNumber, updateContactEmail } = useContext(AppContext);
   const [usernameModalVisible, setUsernameModalVisible] = useState(false);
   const [contactNumberModalVisible, setContactNumberModalVisible] =
     useState(false);
@@ -26,9 +26,6 @@ const SettingsScreen = () => {
   ] = useState(false);
   const [contactEmailConfirmModalVisible, setContactEmailConfirmModalVisible] =
     useState(false);
-  const [username, setUsername] = useState("current_username");
-  const [contactNumber, setContactNumber] = useState("89751027");
-  const [contactEmail, setContactEmail] = useState("afreen@gmail.com");
   const [newUsername, setNewUsername] = useState("");
   const [newContactNumber, setNewContactNumber] = useState("");
   const [newContactEmail, setNewContactEmail] = useState("");
@@ -40,19 +37,19 @@ const SettingsScreen = () => {
   };
 
   const handleSaveUsername = () => {
-    setUsername(newUsername);
+    updateUsername(newUsername);
     setUsernameModalVisible(false);
     setNewUsername("");
   };
 
   const handleSaveContactNumber = () => {
-    setContactNumber(newContactNumber);
+    updateContactNumber(newContactNumber);
     setContactNumberModalVisible(false);
     setNewContactNumber("");
   };
 
   const handleSaveContactEmail = () => {
-    setContactEmail(newContactEmail);
+    updateContactEmail(newContactEmail);
     setContactEmailModalVisible(false);
     setNewContactEmail("");
   };
@@ -112,9 +109,9 @@ const SettingsScreen = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.textUpdate}>Current Username: {username}</Text>
+            <Text style={styles.textUpdate}>Current Username: {curUser.username}</Text>
             <Text style={styles.textUpdate}>Are you sure you want to change it?</Text>
-            <View style={styles.modalButtonContainer}>
+            <View style={styles.modalButtonsContainer}>
               <Button
                 title="Yes"
                 onPress={() => {
@@ -138,9 +135,9 @@ const SettingsScreen = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.textUpdate}>Current Contact Number: {contactNumber}</Text>
+            <Text style={styles.textUpdate}>Current Contact Number: {curUser.contactNumber}</Text>
             <Text style={styles.textUpdate}>Are you sure you want to change it?</Text>
-            <View style={styles.modalButtonContainer}>
+            <View style={styles.modalButtonsContainer}>
               <Button
                 title="Yes"
                 onPress={() => {
@@ -164,9 +161,9 @@ const SettingsScreen = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.textUpdate}>Current Contact Email: {contactEmail}</Text>
+            <Text style={styles.textUpdate}>Current Contact Email: {curUser.contactEmail}</Text>
             <Text style={styles.textUpdate}>Are you sure you want to change it?</Text>
-            <View style={styles.modalButtonContainer}>
+            <View style={styles.modalButtonsContainer}>
               <Button
                 title="Yes"
                 onPress={() => {
@@ -198,7 +195,10 @@ const SettingsScreen = () => {
               onChangeText={setNewUsername}
               placeholder="Enter new username"
             />
-            <Button title="Save" onPress={handleSaveUsername} />
+            <View style={styles.modalButtonsContainer}>
+              <Button title="Save" onPress={handleSaveUsername} />
+              <Button title="Cancel" onPress={() => { setUsernameModalVisible(false); }} />
+            </View>
           </View>
         </View>
       </Modal>
@@ -217,7 +217,10 @@ const SettingsScreen = () => {
               onChangeText={setNewContactNumber}
               placeholder="Enter new contact number"
             />
-            <Button title="Save" onPress={handleSaveContactNumber} />
+            <View style={styles.modalButtonsContainer}>
+              <Button title="Save" onPress={handleSaveContactNumber} />
+              <Button title="Cancel" onPress={() => { setContactNumberModalVisible(false); }} />
+            </View>
           </View>
         </View>
       </Modal>
@@ -236,34 +239,47 @@ const SettingsScreen = () => {
               onChangeText={setNewContactEmail}
               placeholder="Enter new contact email"
             />
-            <Button title="Save" onPress={handleSaveContactEmail} />
+            <View style={styles.modalButtonsContainer}>
+              <Button title="Save" onPress={handleSaveContactEmail} />
+              <Button title="Cancel" onPress={() => { setContactEmailModalVisible(false); }} />
+            </View>
           </View>
         </View>
       </Modal>
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: "#fff",
     padding: 20,
   },
   settingOption: {
     backgroundColor: "#fff",
     borderRadius: 10,
+    maxHeight: 50,
     padding: 15,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 10,
+    borderWidth: 0.5,
+    borderRadius: 17,
+    borderColor: "#ccc",
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 0.5,
+    shadowOffset: { width: 0, height: 2 },
   },
   settingText: {
     fontSize: 16,
+    color: "#495057",
   },
   arrow: {
     fontSize: 16,
-    color: "#ccc",
+    color: "#88C34A",
   },
   divider: {
     height: 1,
@@ -272,13 +288,23 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     backgroundColor: "#fff",
-    borderRadius: 10,
-    padding: 15,
-    alignItems: "center",
+    borderRadius: 50,
+    padding: 10,
+    width: "60%",
+    justifyContent: "center",
+    alignSelf: "center",
+    borderWidth: 1.5,
+    borderColor: "88C34A",
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 0.5,
+    shadowOffset: { width: 0, height: 2.3 },
   },
   logoutText: {
     fontSize: 16,
-    color: "#88C34A",
+    color: "black",
+    fontWeight: "bold",
+    alignSelf: "center",
   },
   modalContainer: {
     flex: 1,
@@ -291,7 +317,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: "center",
     marginTop: 10,
-    
   },
   modalContent: {
     width: 300,
@@ -313,6 +338,12 @@ const styles = StyleSheet.create({
   },
   textUpdate: {
     padding: 10,
+  },
+  modalButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "70%",
   },
 });
 

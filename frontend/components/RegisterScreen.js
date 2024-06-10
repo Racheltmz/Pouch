@@ -47,14 +47,18 @@ const RegisterScreen = ({ navigation }) => {
       <TextInput
         style={styles.input}
         placeholder="email@domain.com"
+        placeholderTextColor="#828282"
         value={email}
         onChangeText={setEmail}
+        keyboardType="default"
       />
       <TextInput
         style={styles.input}
         placeholder="password"
+        placeholderTextColor="#828282"
         value={password}
         onChangeText={setPassword}
+        secureTextEntry={true} 
       />
       {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
       <TouchableOpacity style={styles.button} onPress={handleRegister}>
@@ -117,6 +121,7 @@ const styles = StyleSheet.create({
   },
   labelFocus: {
     color: '#88C34A',
+    fontWeight: 'bold',
   },
   input: {
     width: '80%',
@@ -126,7 +131,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 20,
-    color: '#828282'
+    color: '#000'
   },
   button: {
     width: '80%',

@@ -39,8 +39,16 @@ const StoresScreen = () => {
 
   return (
     <View style={styles.container}>
-      <TextInput style={styles.searchBar} placeholder="Search" placeholderTextColor="#000" value={searchQuery}
-        onChangeText={handleSearch} />
+      <View style={styles.searchBar}>
+        <Image source={require("../assets/search-icon.png")} style={styles.searchIcon} />
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search"
+          placeholderTextColor="#ababab"
+          value={searchQuery}
+          onChangeText={handleSearch}
+        />
+      </View>
       <FlatList
         data={displayStores}
         renderItem={renderStore}
@@ -59,10 +67,20 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: "#ccc",
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 12,
     paddingHorizontal: 10,
     marginBottom: 10,
     backgroundColor: "#fff",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  searchIcon: {
+    width: 20,
+    height: 20,
+    marginRight: 7,
+  },
+  searchInput: {
+    flex: 1,
   },
   storeCard: {
     marginBottom: 10,

@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { db } from '../firebase/config.js';
-import { ref, onValue } from 'firebase/database';
+import { ref, onValue, set } from 'firebase/database';
 
 export const AppContext = createContext();
 
@@ -42,6 +42,30 @@ export const AppProvider = ({ children }) => {
   const [rewards, setRewards] = useState([]);
   const [rewardsCategorised, setRewardsCategorised] = useState([]);
   const [stores, setStores] = useState([]);
+
+  const updateUsername = (newUsername) => {
+    if (uid) {
+      set(ref(db, `users/${uid}/username`), newUsername)
+        .then(() => console.log('Username updated successfully'))
+        .catch((error) => console.error('Error updating username: ', error));
+    }
+  };
+
+  const updateContactNumber = (newContactNumber) => {
+    if (uid) {
+      set(ref(db, `users/${uid}/contactNumber`), newContactNumber)
+        .then(() => console.log('Contact number updated successfully'))
+        .catch((error) => console.error('Error updating contact number: ', error));
+    }
+  };
+
+  const updateContactEmail = (newContactEmail) => {
+    if (uid) {
+      set(ref(db, `users/${uid}/contactEmail`), newContactEmail)
+        .then(() => console.log('Contact email updated successfully'))
+        .catch((error) => console.error('Error updating contact email: ', error));
+    }
+  };
 
   // Get list of stores
   useEffect(() => {
@@ -136,7 +160,7 @@ export const AppProvider = ({ children }) => {
 
 
   return (
-    <AppContext.Provider value={{ uid, curUser, setUID, stores, rewards, rewardsCategorised }}>
+    <AppContext.Provider value={{ uid, curUser, setUID, stores, rewards, rewardsCategorised, updateUsername, updateContactNumber, updateContactEmail }}>
       {children}
     </AppContext.Provider>
   );

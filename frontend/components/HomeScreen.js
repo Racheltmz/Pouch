@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
   profileContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: -3,
+    bottom: 3,
   },
   profileIcon: {
     width: 50,
@@ -123,6 +124,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
+    left: 4,
   },
   section: {
     marginTop: 20,
@@ -151,7 +153,7 @@ const styles = StyleSheet.create({
     height: 225,
     backgroundColor: '#fff',
     marginRight: 10,
-    borderRadius: 5,
+    borderRadius: 10,
     borderColor: '#000',
     borderOpacity: 0.1,
     shadowColor: "#000",
@@ -199,7 +201,7 @@ const styles = StyleSheet.create({
     height: 210,
     backgroundColor: '#fff',
     marginRight: 10,
-    borderRadius: 5,
+    borderRadius: 10,
     borderColor: '#000',
     borderOpacity: 0.1,
     shadowColor: "#000",
