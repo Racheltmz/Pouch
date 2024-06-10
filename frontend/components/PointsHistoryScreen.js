@@ -1,9 +1,24 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList, ScrollView, Dimensions } from 'react-native';
+import { LineChart } from 'react-native-chart-kit';
 import { AppContext } from '../context/AppContext';
 
 const PointsHistoryScreen = () => {
   const { curUser } = useContext(AppContext);
+
+  const dates = curUser.history.map(item => item.date);
+  const points = curUser.history.map(item => parseInt(item.points));
+
+  const chartData = {
+    labels: dates,
+    datasets: [
+      {
+        data: points,
+        color: (opacity = 1) => `#88C34A`, 
+        strokeWidth: 2,
+      },
+    ],
+  };
   
   const renderItem = ({ item }) => (
     <View style={styles.card}>
@@ -15,15 +30,45 @@ const PointsHistoryScreen = () => {
     </View>
   );
 
-  return (
-    <View style={styles.container}>
-      <FlatList
-        data={curUser.history}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.listContainer}
+  const renderHeader = () => (
+    <View>
+      <LineChart
+        data={chartData}
+        width={Dimensions.get('window').width - 40}
+        height={220}
+        chartConfig={{
+          backgroundColor: '#fff',
+          backgroundGradientFrom: '#fff',
+          backgroundGradientTo: '#fff',
+          decimalPlaces: 0,
+          color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+          labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+          style: {
+            borderRadius: 16,
+          },
+          propsForDots: {
+            r: '6',
+            strokeWidth: '2',
+            stroke: '#88C34A',
+          },
+        }}
+        bezier
+        style={{
+          marginVertical: 8,
+          borderRadius: 16,
+        }}
       />
     </View>
+  );
+
+  return (
+    <FlatList
+      data={curUser.history}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id.toString()}
+      contentContainerStyle={styles.listContainer}
+      ListHeaderComponent={renderHeader}
+    />
   );
 };
 
