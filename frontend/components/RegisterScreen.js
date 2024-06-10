@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, Image } from 'react-native';
-import { auth } from '../firebase/config';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
+import { db, auth } from '../firebase/config';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { ref, set } from 'firebase/database';
 
 const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -10,21 +11,25 @@ const RegisterScreen = ({ navigation }) => {
 
   const handleRegister = async () => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      // Navigate to the LoginScreen
-      navigation.navigate("Main");
+      const response = await createUserWithEmailAndPassword(auth, email, password);
+      const newUID = response._tokenResponse.localId;
+      set(ref(db, '/users/' + newUID), {
+        username: capitalizeFirstLetter(email.split('@')[0]),
+        points: 0,
+        history: {},
+        rewards: {},
+      });
+      navigation.navigate("Login");
     } catch (err) {
       alert('Login failed: ' + err.message);
     }
   };
   
   const handleGoogleLogin = () => {
-    // Navigate to the LoginScreen
     navigation.navigate("Login");
   };
 
   const handleLoginLink = () => {
-    // Navigate to the LoginScreen
     navigation.navigate("Login");
   };
 

@@ -1,22 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, Image } from 'react-native';
 import { auth } from '../firebase/config';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { AppContext } from '../context/AppContext';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { setUID } = useContext(AppContext);
 
   const login = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      onAuthStateChanged(auth, (user) => {
+        if (user)
+          setUID(user.uid);
+      });
       // Navigate to the LoginScreen
       navigation.navigate("Main");
     } catch (err) {
       alert('Login failed: ' + err.message);
     }
   };
-
   return (
     <View style={styles.container}>
       <Image source={require('../assets/logo.png')} style={styles.logo} />
@@ -103,8 +108,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   logo: {
-    width: 90, // Adjust the width as needed
-    height: 90, // Adjust the height as needed
+    width: 90, 
+    height: 90, 
     marginBottom: 20,
   },
   label: {

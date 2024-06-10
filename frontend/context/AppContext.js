@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { db } from '../firebase/config.js';
-import { ref, onValue } from 'firebase/database';
+import { ref, onValue, set } from 'firebase/database';
 
 export const AppContext = createContext();
 
@@ -34,14 +34,38 @@ export const AppProvider = ({ children }) => {
   const [uid, setUID] = useState(null);
   const [curUser, setCurUser] = useState({
     username: "",
-    lastname: "",
     points: 0,
-    rewards: []
+    rewards: [],
+    history: [],
   });
   const [rewardId, setRewardId] = useState([]);
   const [rewards, setRewards] = useState([]);
   const [rewardsCategorised, setRewardsCategorised] = useState([]);
   const [stores, setStores] = useState([]);
+
+  const updateUsername = (newUsername) => {
+    if (uid) {
+      set(ref(db, `users/${uid}/username`), newUsername)
+        .then(() => console.log('Username updated successfully'))
+        .catch((error) => console.error('Error updating username: ', error));
+    }
+  };
+
+  const updateContactNumber = (newContactNumber) => {
+    if (uid) {
+      set(ref(db, `users/${uid}/contactNumber`), newContactNumber)
+        .then(() => console.log('Contact number updated successfully'))
+        .catch((error) => console.error('Error updating contact number: ', error));
+    }
+  };
+
+  const updateContactEmail = (newContactEmail) => {
+    if (uid) {
+      set(ref(db, `users/${uid}/contactEmail`), newContactEmail)
+        .then(() => console.log('Contact email updated successfully'))
+        .catch((error) => console.error('Error updating contact email: ', error));
+    }
+  };
 
   // Get list of stores
   useEffect(() => {
@@ -94,7 +118,7 @@ export const AppProvider = ({ children }) => {
   }, []);
 
 
-  // Get user's points
+  // Get active user's details
   useEffect(() => {
     if (uid !== null) {
       return onValue(ref(db, '/users'), querySnapShot => {
@@ -102,23 +126,24 @@ export const AppProvider = ({ children }) => {
         let users = { ...data };
         let getCurUser = Object.fromEntries(Object.entries(users)
           .filter(([key]) => key.includes(uid)))[uid];
-        let count = 0;
         let userRewards = [];
         let pointsHist = [];
-        Object.entries(getCurUser.rewards).map(entry => {
-          let idx = rewardId.indexOf(entry[0]);
-          userRewards[count] = {
-            description: rewards[idx].description,
-            expiryDate: entry[1],
-          }
-          count++;
-        });
-        Object.entries(getCurUser.history).map(entry => {
-          let histId = entry[0];
-          let record = entry[1];
-          record.id = histId;
-          pointsHist.push(record);
-        });
+        if (getCurUser.rewards !== undefined) {
+          Object.entries(getCurUser.rewards).map(entry => {
+            let histId = entry[0];
+            let record = entry[1];
+            record.id = histId;
+            userRewards.push(record);
+          });
+        }
+        if (getCurUser.history !== undefined) {
+          Object.entries(getCurUser.history).map(entry => {
+            let histId = entry[0];
+            let record = entry[1];
+            record.id = histId;
+            pointsHist.push(record);
+          });
+        }
         getCurUser.rewards = userRewards;
         getCurUser.history = pointsHist;
         setCurUser(getCurUser);
@@ -126,16 +151,16 @@ export const AppProvider = ({ children }) => {
     } else {
       setCurUser({
         username: "",
-        lastname: "",
         points: 0,
-        rewards: []
+        rewards: [],
+        history: [],
       })
     }
   }, [uid]);
 
 
   return (
-    <AppContext.Provider value={{ uid, curUser, setUID, stores, rewards, rewardsCategorised }}>
+    <AppContext.Provider value={{ uid, curUser, setUID, stores, rewards, rewardsCategorised, updateUsername, updateContactNumber, updateContactEmail }}>
       {children}
     </AppContext.Provider>
   );

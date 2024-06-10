@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -9,8 +9,10 @@ import {
   Button,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { AppContext } from '../context/AppContext';
 
 const SettingsScreen = () => {
+  const { curUser, updateUsername, updateContactNumber, updateContactEmail } = useContext(AppContext);
   const [usernameModalVisible, setUsernameModalVisible] = useState(false);
   const [contactNumberModalVisible, setContactNumberModalVisible] =
     useState(false);
@@ -24,9 +26,6 @@ const SettingsScreen = () => {
   ] = useState(false);
   const [contactEmailConfirmModalVisible, setContactEmailConfirmModalVisible] =
     useState(false);
-  const [username, setUsername] = useState("current_username");
-  const [contactNumber, setContactNumber] = useState("89751027");
-  const [contactEmail, setContactEmail] = useState("afreen@gmail.com");
   const [newUsername, setNewUsername] = useState("");
   const [newContactNumber, setNewContactNumber] = useState("");
   const [newContactEmail, setNewContactEmail] = useState("");
@@ -37,19 +36,19 @@ const SettingsScreen = () => {
   };
 
   const handleSaveUsername = () => {
-    setUsername(newUsername);
+    updateUsername(newUsername);
     setUsernameModalVisible(false);
     setNewUsername("");
   };
 
   const handleSaveContactNumber = () => {
-    setContactNumber(newContactNumber);
+    updateContactNumber(newContactNumber);
     setContactNumberModalVisible(false);
     setNewContactNumber("");
   };
 
   const handleSaveContactEmail = () => {
-    setContactEmail(newContactEmail);
+    updateContactEmail(newContactEmail);
     setContactEmailModalVisible(false);
     setNewContactEmail("");
   };
@@ -109,7 +108,7 @@ const SettingsScreen = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.textUpdate}>Current Username: {username}</Text>
+            <Text style={styles.textUpdate}>Current Username: {curUser.username}</Text>
             <Text style={styles.textUpdate}>Are you sure you want to change it?</Text>
             <View style={styles.modalButtonsContainer}>
               <Button
@@ -135,7 +134,7 @@ const SettingsScreen = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.textUpdate}>Current Contact Number: {contactNumber}</Text>
+            <Text style={styles.textUpdate}>Current Contact Number: {curUser.contactNumber}</Text>
             <Text style={styles.textUpdate}>Are you sure you want to change it?</Text>
             <View style={styles.modalButtonsContainer}>
               <Button
@@ -161,7 +160,7 @@ const SettingsScreen = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.textUpdate}>Current Contact Email: {contactEmail}</Text>
+            <Text style={styles.textUpdate}>Current Contact Email: {curUser.contactEmail}</Text>
             <Text style={styles.textUpdate}>Are you sure you want to change it?</Text>
             <View style={styles.modalButtonsContainer}>
               <Button

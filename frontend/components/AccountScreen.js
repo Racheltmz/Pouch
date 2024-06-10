@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
   View,
@@ -10,9 +10,17 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import PointsMeter from './PointsMeter';
+import { AppContext } from '../context/AppContext';
 
-const Stack = createNativeStackNavigator();
-const AccountHomeScreen = ({ navigation }) => {
+const AccountHomeScreen = ({ navigation, curUser }) => {
+  const points = parseFloat(curUser.points);
+  const pointsNeededForNextTier = (points) => {
+    if (points < 1300) return (1300 - points).toFixed(2) + " points to Silver!";
+    else if (points < 2450) return (2450 - points).toFixed(2) + " points to Gold!";
+    else if (points < 4084.6) return (4084.6 - points).toFixed(2) + " points to Emerald!";
+    return "Emerald tier reached!";
+  };
+  
     return (
       <ScrollView style={styles.container}>
         <View style={styles.greenCard}>
@@ -25,7 +33,7 @@ const AccountHomeScreen = ({ navigation }) => {
         </View>
         <Text style={styles.expiresText}>Expires on 07/08/2027</Text>
         <View style={styles.userNameText}>
-          <Text style={styles.greenCardText}>Afreen</Text>
+          <Text style={styles.greenCardText}>{curUser.username}</Text>
         </View>
         <View style={styles.groceriesIcon}>
           <Image source={require('../assets/groceries-icon.png')} style={styles.groceriesIcon} />
@@ -33,17 +41,17 @@ const AccountHomeScreen = ({ navigation }) => {
       </View>
         <TouchableOpacity style={styles.pointsBar} onPress={() => navigation.navigate('PointsHistory')}>
           <View style={styles.pointsContainer}>
-            <Text style={styles.points}>1000 points</Text>
-            <Text style={styles.pointsProgress}>21.15 points to Silver!</Text>
+            <Text style={styles.points}>{points} points</Text>
+            <Text style={styles.pointsProgress}>{pointsNeededForNextTier(points)}</Text>
           </View>
-          <PointsMeter points={1220} totalPoints={4084.6} />
+          <PointsMeter points={points} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('MyRewards')}>
           <View style={styles.cardContent}>
             <Text style={styles.cardTitle}>My Rewards</Text>
             <Icon name="chevron-forward-outline" size={30} color="#88C34A" />
           </View>
-          <Text style={styles.cardPoints}>3</Text>
+          <Text style={styles.cardPoints}>{curUser.rewards.length}</Text>
           <Image source={require('../assets/myrewards-icon.png')} style={styles.rewardsCardImage} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('MyReferrals')}>
@@ -58,21 +66,23 @@ const AccountHomeScreen = ({ navigation }) => {
     );
   };
   const AccountScreen = ({ navigation }) => {
+    const { curUser } = useContext(AppContext);
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.header}>
           <View style={styles.profileContainer}>
             <Image source={require('../assets/profile-icon.png')} style={styles.profileIcon} />
-            <Text style={styles.profileText}>Afreen</Text>
+            <Text style={styles.profileText}>{curUser.username}</Text>
           </View>
           <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
             <Icon name="settings-outline" size={30} color="#000" style={styles.settingsIcon} />
           </TouchableOpacity>
         </View>
-        <AccountHomeScreen navigation={navigation} />
+        <AccountHomeScreen navigation={navigation} curUser={curUser}/>
       </View>
     );
   };
+
   const styles = StyleSheet.create({
     profileContainer: {
       flexDirection: 'row',

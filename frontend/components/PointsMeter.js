@@ -1,26 +1,38 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const PointsMeter = ({ points, totalPoints, containerWidth }) => {
-  // Calculate the percentage of points achieved
+const PointsMeter = ({ points }) => {
+  const totalPoints = 4084.6;
+  
   const percentage = (points / totalPoints) * 100;
 
+  const thresholds = {
+    green: 0,
+    silver: 1300,
+    gold: 2450,
+    emerald: 4084.6,
+  };
+
+  const getLeftPosition = (threshold) => {
+    return (threshold / totalPoints) * 100;
+  };
+
   return (
-    <View style={[styles.container, { width: containerWidth }]}>
+    <View style={styles.container}>
       <View style={styles.meterContainer}>
         <View style={[styles.meter, { width: `${percentage}%` }]} />
       </View>
       <View style={styles.labelsContainer}>
-        <View style={[styles.labelContainer, { left: '0%' }]}>
+        <View style={[styles.labelContainer, { left: `${getLeftPosition(thresholds.green)}%` }]}>
           <Text style={styles.label}>Green</Text>
         </View>
-        <View style={[styles.labelContainer, { left: '5%' }]}>
+        <View style={[styles.labelContainer, { left: `${getLeftPosition(thresholds.silver)}%` }]}>
           <Text style={styles.label}>Silver</Text>
         </View>
-        <View style={[styles.labelContainer, { left: '100%' }]}>
+        <View style={[styles.labelContainer, { left: `${getLeftPosition(thresholds.gold)}%` }]}>
           <Text style={styles.label}>Gold</Text>
         </View>
-        <View style={[styles.labelContainer, { left: '130%' }]}>
+        <View style={[styles.labelContainer, { left: `${getLeftPosition(thresholds.emerald)}%` }]}>
           <Text style={styles.label}>Emerald</Text>
         </View>
       </View>
@@ -50,9 +62,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
+    position: 'relative',
   },
   labelContainer: {
-    width: '20%', // Adjust based on the number of labels
+    width: '20%', 
   },
   label: {
     fontSize: 12,

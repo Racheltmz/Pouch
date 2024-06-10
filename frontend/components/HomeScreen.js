@@ -1,64 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image, FlatList } from 'react-native';
+import { AppContext } from '../context/AppContext';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { db } from '../firebase/config.js';
-import { ref, onValue } from 'firebase/database';
-
-const storesImages = {
-  1: require("../assets/stuffd.jpeg"),
-  2: require("../assets/wokhey.webp"),
-  3: require("../assets/maki-san.jpeg"),
-};
-
-const rewardsImages = {
-  1: require("../assets/stuffd-logo.jpeg"),
-  2: require("../assets/makisan-logo.jpeg"),
-  3: require("../assets/namkeepau-logo.jpeg"),
-  4: require("../assets/pezzo-logo.png"),
-};
 
 const HomeScreen = ({navigation}) => {
-  const [stores, setStores] = useState([]);
-  const [rewards, setRewards] = useState([]);
+  const { curUser, stores, rewards } = useContext(AppContext);
  
-  // Get list of stores
-  useEffect(() => {
-    return onValue(ref(db, '/stores'), querySnapShot => {
-      let data = querySnapShot.val() || {};
-      let listing = { ...data };
-      let storeList = [];
-      let count = 0;
-      Object.entries(listing).map(entry => {
-        let record = entry[1];
-        record.id = count + 1;
-        count++;
-        storeList.push(record);
-      });
-      setStores(storeList);
-    })
-  }, []);
-
-  // Get list of rewards
-  useEffect(() => {
-    return onValue(ref(db, '/rewards'), querySnapShot => {
-      let data = querySnapShot.val() || {};
-      let listing = { ...data };
-      let rewardList = [];
-      let count = 0;
-      Object.entries(listing).map(entry => {
-        let record = entry[1];
-        record.id = count + 1;
-        count++;
-        rewardList.push(record);
-      });
-      setRewards(rewardList);
-    })
-  }, []);
-
   const renderStore = ({ item }) => (
     <View style={styles.storeCard}> 
       <View style={styles.imageContainer}>
-        <Image source={storesImages[item.id]} style={styles.storeImage} />
+        <Image source={item.image} style={styles.storeImage} />
       </View>     
         <Text style={styles.storeName}>{item.name}</Text>
         <View style={styles.storeLocationContainer}>
@@ -71,7 +22,7 @@ const HomeScreen = ({navigation}) => {
   const renderRewards = ({ item }) => (
     <View style={styles.rewardCard}> 
     <View style={styles.rewardImageContainer}>
-      <Image source={rewardsImages[item.id]} style={styles.rewardImage} />
+      <Image source={item.image} style={styles.rewardImage} />
       <View style={styles.croppedBottom} />
     </View>
     <View style={styles.rewardDetailsContainer}>
@@ -90,12 +41,12 @@ const HomeScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.profileContainer}>
-        <TouchableOpacity onPress={handleProfilePress}>
+        <TouchableOpacity onPress={() => handleProfilePress}>
           <Image source={require('../assets/profile-icon.png')} style={styles.profileIcon} />
         </TouchableOpacity>
-        <Text style={styles.profileText}>Welcome Afreen!</Text>
+        <Text style={styles.profileText}>Welcome {curUser.username}!</Text>
         <View style={styles.pointsBox}>
-          <Text style={styles.pointsText}>1000 Points</Text>
+          <Text style={styles.pointsText}>{curUser.points} Points</Text>
         </View>
       </View>
 
