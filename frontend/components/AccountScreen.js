@@ -13,19 +13,32 @@ import PointsMeter from './PointsMeter';
 import { AppContext } from '../context/AppContext';
 
 const AccountHomeScreen = ({ navigation, curUser }) => {
-  const points = parseFloat(curUser.points);
-  const pointsNeededForNextTier = (points) => {
-    if (points < 1300) return (1300 - points).toFixed(2) + " points to Silver!";
-    else if (points < 2450) return (2450 - points).toFixed(2) + " points to Gold!";
-    else if (points < 4084.6) return (4084.6 - points).toFixed(2) + " points to Emerald!";
-    return "Emerald tier reached!";
-  };
+    const points = parseFloat(curUser.points);
+    const pointsNeededForNextTier = (points) => {
+      if (points < 1300) return (1300 - points).toFixed(2) + " points to Silver!";
+      else if (points < 2450) return (2450 - points).toFixed(2) + " points to Gold!";
+      else if (points < 4084.6) return (4084.6 - points).toFixed(2) + " points to Emerald!";
+      return "Emerald tier reached!";
+    };
+
+    const getGreenCardInfo = (points) => {
+      if (points >= 4084.6) {
+        return { color: "#004d24", text: "Emerald" };
+      } else if (points >= 2450) {
+        return { color: "#d4af37", text: "Gold" };
+      } else if (points >= 1300) {
+        return { color: "#939296", text: "Silver" };
+      }
+      return { color: "#88C34A", text: "Green" }; // Default color and text
+    };
+
+    const { color: greenCardColor, text: greenCardText } = getGreenCardInfo(points);
   
     return (
       <ScrollView style={styles.container}>
-        <View style={styles.greenCard}>
+        <View style={[styles.greenCard, { backgroundColor: greenCardColor }]}>
         <View style={styles.greenCardContent}>
-          <Text style={styles.greenCardText}>Green</Text>
+          <Text style={styles.greenCardText}>{greenCardText}</Text>
           <TouchableOpacity style={styles.claimRewardsContainer} onPress={() => navigation.navigate('Rewards')}>
             <Text style={styles.claimRewardsText}>Claim rewards</Text>
             <Icon name="chevron-forward-outline" size={20} color="#fff" />
@@ -35,16 +48,13 @@ const AccountHomeScreen = ({ navigation, curUser }) => {
         <View style={styles.userNameText}>
           <Text style={styles.greenCardText}>{curUser.username}</Text>
         </View>
-        <View style={styles.groceriesIcon}>
-          <Image source={require('../assets/groceries-icon.png')} style={styles.groceriesIcon} />
-        </View>
       </View>
         <TouchableOpacity style={styles.pointsBar} onPress={() => navigation.navigate('PointsHistory')}>
           <View style={styles.pointsContainer}>
             <Text style={styles.points}>{points} points</Text>
             <Text style={styles.pointsProgress}>{pointsNeededForNextTier(points)}</Text>
           </View>
-          <PointsMeter points={points} />
+          <PointsMeter points={points} meterColor={greenCardColor} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('MyRewards')}>
           <View style={styles.cardContent}>
@@ -121,7 +131,6 @@ const AccountHomeScreen = ({ navigation, curUser }) => {
       top: 6,
     },
     greenCard: {
-      backgroundColor: '#88C34A',
       marginHorizontal: 10,
       padding: 20,
       paddingHorizontal: 5,
@@ -231,12 +240,6 @@ const AccountHomeScreen = ({ navigation, curUser }) => {
       left: 0,
       backgroundColor: 'transparent',
       padding: 20,
-    },
-    groceriesIcon: {
-      width: 162,
-      height: 139,
-      paddingLeft: 160,
-      bottom: 2,
     },
     pointsContainer: {
       flexDirection: 'row',

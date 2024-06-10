@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const PointsMeter = ({ points }) => {
+const PointsMeter = ({ points, meterColor }) => {
   const totalPoints = 4084.6;
   
   const percentage = (points / totalPoints) * 100;
@@ -20,7 +20,7 @@ const PointsMeter = ({ points }) => {
   return (
     <View style={styles.container}>
       <View style={styles.meterContainer}>
-        <View style={[styles.meter, { width: `${percentage}%` }]} />
+        <View style={[styles.meter, { width: `${percentage}%`, backgroundColor: meterColor }]} />
       </View>
       <View style={styles.labelsContainer}>
         <View style={[styles.labelContainer, { left: `${getLeftPosition(thresholds.green)}%` }]}>
@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   meter: {
-    backgroundColor: '#88C34A',
     height: '100%',
   },
   labelsContainer: {
