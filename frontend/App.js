@@ -5,6 +5,7 @@ import MainTabNavigator from './utils/Navigation';
 import LoginScreen from './components/LoginScreen';
 import RewardsScreen from './components/RewardsScreen';
 import RegisterScreen from './components/RegisterScreen';
+import AccountScreen from './components/AccountScreen';
 import SettingsScreen from './components/SettingsScreen';
 import PointsHistoryScreen from './components/PointsHistoryScreen';
 import MyRewardsScreen from './components/MyRewardsScreen';
@@ -35,6 +36,7 @@ export default function App() {
             component={MainTabNavigator}
             options={{ headerShown: false }}
           />
+          <Stack.Screen name="Account" component={AccountScreen} />
           <Stack.Screen name="Settings" component={SettingsScreen} />
           <Stack.Screen name="Rewards" component={RewardsScreen} />
           <Stack.Screen

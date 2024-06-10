@@ -38,7 +38,6 @@ export const AppProvider = ({ children }) => {
     rewards: [],
     history: [],
   });
-  const [rewardId, setRewardId] = useState([]);
   const [rewards, setRewards] = useState([]);
   const [rewardsCategorised, setRewardsCategorised] = useState([]);
   const [stores, setStores] = useState([]);
@@ -90,7 +89,6 @@ export const AppProvider = ({ children }) => {
     return onValue(ref(db, '/rewards'), querySnapShot => {
       let data = querySnapShot.val() || {};
       let listing = { ...data };
-      let rewardId = [];
       let rewardList = [];
       let over1000 = [];
       let under1000 = [];
@@ -100,7 +98,6 @@ export const AppProvider = ({ children }) => {
         let record = entry[1];
         record.id = count + 1;
         record.image = rewardsImages[record.id];
-        rewardId.push(id)
         rewardList.push(record);
         if (record.points < 1000) {
           under1000.push(record);
@@ -109,7 +106,6 @@ export const AppProvider = ({ children }) => {
         }
         count++;
       });
-      setRewardId(rewardId);
       setRewards(rewardList);
       rewardsLayout[0].data = under1000;
       rewardsLayout[1].data = over1000;

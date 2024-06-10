@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AppContext } from "../context/AppContext";
 
 const SettingsScreen = () => {
-  const { curUser, updateUsername, updateContactNumber, updateContactEmail } = useContext(AppContext);
+  const { curUser, setUID, updateUsername, updateContactNumber, updateContactEmail } = useContext(AppContext);
   const [usernameModalVisible, setUsernameModalVisible] = useState(false);
   const [contactNumberModalVisible, setContactNumberModalVisible] =
     useState(false);
@@ -135,7 +135,7 @@ const SettingsScreen = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.textUpdate}>Current Contact Number: {curUser.contactNumber}</Text>
+            <Text style={styles.textUpdate}>Current Contact Number: 87654321</Text>
             <Text style={styles.textUpdate}>Are you sure you want to change it?</Text>
             <View style={styles.modalButtonsContainer}>
               <Button
