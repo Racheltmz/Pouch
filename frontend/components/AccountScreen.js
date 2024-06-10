@@ -35,7 +35,7 @@ const AccountHomeScreen = ({ navigation, curUser }) => {
 
   return (
     <ScrollView style={styles.container}>
-      <TouchableOpacity style={styles.greenCard} onPress={() => navigation.navigate('Rewards')}>
+      <TouchableOpacity style={[styles.greenCard, { backgroundColor: greenCardColor }]} onPress={() => navigation.navigate('Rewards')}>
         <View style={styles.greenCardContent}>
         <Text style={styles.greenCardText}>{greenCardText}</Text>
           <TouchableOpacity style={styles.claimRewardsContainer} onPress={() => navigation.navigate('Rewards')}>
@@ -133,7 +133,6 @@ const styles = StyleSheet.create({
     top: 6,
   },
   greenCard: {
-    backgroundColor: '#88C34A',
     marginHorizontal: 10,
     padding: 20,
     paddingHorizontal: 5,
@@ -249,6 +248,7 @@ const styles = StyleSheet.create({
     height: 139,
     paddingLeft: 160,
     bottom: 2,
+    right: 5,
   },
   pointsContainer: {
     flexDirection: 'row',

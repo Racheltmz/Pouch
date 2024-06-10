@@ -17,6 +17,9 @@ const firebaseConfig = {
   measurementId: REACT_APP_MEASUREMENTID
 };
 
+console.log(REACT_APP_FIREBASE_API_KEY);
+console.log(REACT_APP_AUTH_DOMAIN);
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
