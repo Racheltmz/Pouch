@@ -26,7 +26,7 @@ const AccountHomeScreen = ({ navigation, curUser }) => {
     } else if (points >= 2450) {
       return { color: "#d4af37", text: "Gold" };
     } else if (points >= 1300) {
-      return { color: "#939296", text: "Silver" };
+      return { color: "#A9A9A9", text: "Silver" };
     }
     return { color: "#88C34A", text: "Green" }; // Default color and text
   };
