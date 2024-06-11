@@ -55,12 +55,17 @@ const PointsHistoryScreen = () => {
     filterData(view);
   };
 
-  const formatDate = (dateString) => {
-    const options = { day: '2-digit', month: 'short', year: 'numeric' };
-    return new Date(dateString).toLocaleDateString('en-GB', options).replace(/ /g, ' ');
+  const formatFullDate = (dateString) => {
+    const options = { day: '2-digit', month: 'long', year: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-GB', options);
   };
 
-  const dates = filteredData.map((item) => item.date);
+  const formatShortDate = (dateString) => {
+    const options = { day: '2-digit', month: 'short' };
+    return new Date(dateString).toLocaleDateString('en-GB', options);
+  };
+
+  const dates = filteredData.map((item) => formatShortDate(item.date));
   const points = filteredData.map((item) => parseInt(item.points));
 
   const validPoints = points.every((point) => !isNaN(point) && isFinite(point));
@@ -82,7 +87,7 @@ const PointsHistoryScreen = () => {
         <Text style={styles.storeName}>{item.name}</Text>
         <Text style={styles.points}>{item.points}</Text>
       </View>
-      <Text style={styles.date}>{formatDate(item.date)}</Text>
+      <Text style={styles.date}>{formatFullDate(item.date)}</Text>
     </View>
   );
 
@@ -149,9 +154,19 @@ const PointsHistoryScreen = () => {
           shadowOffset: { width: 0, height: 2 },
           elevation: 3,
         }}
-        formatXLabel={(label, index) =>
-          index % Math.ceil(dates.length / 1) === 0 ? label : ""
-        }
+        formatXLabel={(label, index) => {
+          const numberOfLabels = dates.length;
+          if (numberOfLabels > 7 && index % 2 === 0) {
+            return label;
+          }
+          if (numberOfLabels <= 7) {
+            return label;
+          }
+          return "";
+        }}
+        fromZero={true}
+        xLabelsOffset={-10}
+        yLabelsOffset={10}
       />
     </View>
   );
