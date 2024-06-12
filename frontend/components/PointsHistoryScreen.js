@@ -13,7 +13,7 @@ import { AppContext } from "../context/AppContext";
 const PointsHistoryScreen = () => {
   const { curUser } = useContext(AppContext);
   const [selectedView, setSelectedView] = useState("Week");
-  const [filteredData, setFilteredData] = useState(curUser.history);
+  const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
     filterData(selectedView);
@@ -24,12 +24,6 @@ const PointsHistoryScreen = () => {
     const now = new Date();
 
     switch (view) {
-      // case "Day":
-      //   filtered = curUser.history.filter((item) => {
-      //     const itemDate = new Date(item.date);
-      //     return now.toDateString() === itemDate.toDateString();
-      //   });
-      //   break;
       case "Week":
         filtered = curUser.history.filter((item) => {
           const itemDate = new Date(item.date);
@@ -47,7 +41,22 @@ const PointsHistoryScreen = () => {
       default:
         filtered = curUser.history;
     }
-    setFilteredData(filtered);
+
+    const aggregatedData = aggregatePointsByDate(filtered);
+    setFilteredData(aggregatedData);
+  };
+
+  const aggregatePointsByDate = (data) => {
+    const aggregated = data.reduce((acc, item) => {
+      const date = new Date(item.date).toDateString();
+      if (!acc[date]) {
+        acc[date] = { date: item.date, points: 0 };
+      }
+      acc[date].points += parseInt(item.points, 10);
+      return acc;
+    }, {});
+
+    return Object.values(aggregated).sort((a, b) => new Date(a.date) - new Date(b.date));
   };
 
   const handleViewChange = (view) => {
@@ -66,7 +75,7 @@ const PointsHistoryScreen = () => {
   };
 
   const dates = filteredData.map((item) => formatShortDate(item.date));
-  const points = filteredData.map((item) => parseInt(item.points));
+  const points = filteredData.map((item) => item.points);
 
   const validPoints = points.every((point) => !isNaN(point) && isFinite(point));
 
@@ -94,15 +103,6 @@ const PointsHistoryScreen = () => {
   const renderHeader = () => (
     <View>
       <View style={styles.buttonContainer}>
-        {/* <TouchableOpacity
-          style={[
-            styles.button,
-            selectedView === "Day" && styles.selectedButton,
-          ]}
-          onPress={() => handleViewChange("Day")}
-        >
-          <Text style={styles.buttonText}>Day</Text>
-        </TouchableOpacity> */}
         <TouchableOpacity
           style={[
             styles.button,
@@ -141,6 +141,7 @@ const PointsHistoryScreen = () => {
             strokeWidth: "2",
             stroke: "#88C34A",
           },
+          yAxisInterval: 50, 
         }}
         bezier
         style={{
@@ -175,7 +176,7 @@ const PointsHistoryScreen = () => {
     <FlatList
       data={filteredData}
       renderItem={renderItem}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={(item) => item.date.toString()}
       contentContainerStyle={styles.listContainer}
       ListHeaderComponent={renderHeader}
     />
