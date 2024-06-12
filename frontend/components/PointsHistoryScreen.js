@@ -15,6 +15,10 @@ const PointsHistoryScreen = () => {
   const [selectedView, setSelectedView] = useState("Week");
   const [filteredData, setFilteredData] = useState([]);
   const [dataRecords, setDataRecords] = useState([]);
+  const now = new Date();
+  const curDate = now.getDate();
+  const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000); // 7 days ago
+  const curMonth = now.getMonth();
 
   useEffect(() => {
     filterData(selectedView);
@@ -22,13 +26,11 @@ const PointsHistoryScreen = () => {
 
   const filterData = (view) => {
     let filtered;
-    const now = new Date();
 
     switch (view) {
       case "Week":
         filtered = curUser.history.filter((item) => {
           const itemDate = new Date(item.date);
-          const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000); // 7 days ago
           return itemDate >= oneWeekAgo && itemDate <= now;
         });
         break;
@@ -46,6 +48,7 @@ const PointsHistoryScreen = () => {
     const aggregatedData = aggregatePointsByDate(filtered);
     setFilteredData(aggregatedData);
     setDataRecords(filtered);
+    console.log('ih')
   };
 
   const aggregatePointsByDate = (data) => {
@@ -123,6 +126,10 @@ const PointsHistoryScreen = () => {
         >
           <Text style={styles.buttonText}>Month</Text>
         </TouchableOpacity>
+      </View>
+      <View>
+        <Text>{oneWeekAgo} to {curDate}</Text> :
+        <Text>{curMonth}</Text>
       </View>
       <LineChart
         data={chartData}
