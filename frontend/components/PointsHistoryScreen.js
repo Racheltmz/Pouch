@@ -16,9 +16,9 @@ const PointsHistoryScreen = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [dataRecords, setDataRecords] = useState([]);
   const now = new Date();
-  const curDate = now.getDate();
+  const curDate = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })
   const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000); // 7 days ago
-  const curMonth = now.getMonth();
+  const curMonth = now.toLocaleString('en-GB', { month: 'long' });
 
   useEffect(() => {
     filterData(selectedView);
@@ -48,7 +48,6 @@ const PointsHistoryScreen = () => {
     const aggregatedData = aggregatePointsByDate(filtered);
     setFilteredData(aggregatedData);
     setDataRecords(filtered);
-    console.log('ih')
   };
 
   const aggregatePointsByDate = (data) => {
@@ -128,8 +127,11 @@ const PointsHistoryScreen = () => {
         </TouchableOpacity>
       </View>
       <View>
-        <Text>{oneWeekAgo} to {curDate}</Text> :
-        <Text>{curMonth}</Text>
+          {selectedView === "Week" ? (
+              <Text style={styles.historyText}>{oneWeekAgo.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })} to {curDate}</Text>
+          ) : (
+              <Text style={styles.historyText}>{curMonth}</Text>
+          )}
       </View>
       <LineChart
         data={chartData}
@@ -253,6 +255,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: 'center',
   },
+  historyText: {
+    marginTop: 5,
+    marginLeft: 10,
+    fontWeight: "bold",
+    fontSize: 20,
+  }  
 });
 
 export default PointsHistoryScreen;
