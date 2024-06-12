@@ -14,13 +14,21 @@ import QrCodeScreen from './components/QRCodeScreen';
 import GeneralSettings from './components/GeneralSettings';
 import { AppProvider } from './context/AppContext';
 
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <AppProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Register">
+        <Stack.Navigator initialRouteName="Register"
+        screenOptions={{
+            headerShown: true,
+            animation: 'fade', 
+            gestureEnabled: true,
+            animationTypeForReplace: 'push', 
+          }}
+        >
           <Stack.Screen
             name="Register"
             component={RegisterScreen}

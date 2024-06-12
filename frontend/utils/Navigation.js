@@ -16,7 +16,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
   const tabLabels = {
     Home: 'Home',
     Stores: 'Stores',
-    QRButton: '', // Placeholder for the QR code button, no label needed
+    QRButton: '', 
     Rewards: 'Rewards',
     Account: 'Account',
   };
@@ -81,7 +81,9 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
       <Modal
         transparent={true}
         visible={modalVisible}
-        animationType="slide"
+        animationIn="zoomIn"
+        animationOut="zoomOut"
+        useNativeDriver={true}
         onRequestClose={() => setModalVisible(false)}
       >
         <View style={styles.modalContainer}>
@@ -100,7 +102,13 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
 };
 
 const MainTabNavigator = () => (
-  <Tab.Navigator tabBar={props => <CustomTabBar {...props} />}>
+  <Tab.Navigator tabBar={props => <CustomTabBar {...props} />}
+    screenOptions={{
+    lazy: true,
+    animationEnabled: true,
+    animation: 'fade',
+    }}
+    >
     <Tab.Screen
       name="Home"
       component={HomeScreen}
@@ -113,8 +121,8 @@ const MainTabNavigator = () => (
     />
     <Tab.Screen
       name="QRButton"
-      component={View} // Placeholder component
-      options={{ tabBarButton: () => null }} // Hides the tab, button will be manually placed
+      component={View} 
+      options={{ tabBarButton: () => null }} 
     />
     <Tab.Screen
       name="Rewards"
@@ -178,7 +186,7 @@ const styles = StyleSheet.create({
       position: 'absolute',
       top: 10,
       left: 10,
-      zIndex: 1, // Ensure the close button is above other content
+      zIndex: 1, 
     },
     closeIcon: {
       width: 30,

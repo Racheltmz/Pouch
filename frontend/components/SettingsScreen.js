@@ -105,7 +105,9 @@ const SettingsScreen = () => {
       <Modal
         visible={usernameConfirmModalVisible}
         transparent={true}
-        animationType="slide"
+        animationIn="zoomIn"
+        animationOut="zoomOut"
+        useNativeDriver={true}
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -131,7 +133,9 @@ const SettingsScreen = () => {
       <Modal
         visible={contactNumberConfirmModalVisible}
         transparent={true}
-        animationType="slide"
+        animationIn="zoomIn"
+        animationOut="zoomOut"
+        useNativeDriver={true}
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -157,7 +161,9 @@ const SettingsScreen = () => {
       <Modal
         visible={contactEmailConfirmModalVisible}
         transparent={true}
-        animationType="slide"
+        animationIn="zoomIn"
+        animationOut="zoomOut"
+        useNativeDriver={true}
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -184,7 +190,9 @@ const SettingsScreen = () => {
       <Modal
         visible={usernameModalVisible}
         transparent={true}
-        animationType="slide"
+        animationIn="zoomIn"
+        animationOut="zoomOut"
+        useNativeDriver={true}
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -206,7 +214,9 @@ const SettingsScreen = () => {
       <Modal
         visible={contactNumberModalVisible}
         transparent={true}
-        animationType="slide"
+        animationIn="zoomIn"
+        animationOut="zoomOut"
+        useNativeDriver={true}
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -228,7 +238,9 @@ const SettingsScreen = () => {
       <Modal
         visible={contactEmailModalVisible}
         transparent={true}
-        animationType="slide"
+        animationIn="zoomIn"
+        animationOut="zoomOut"
+        useNativeDriver={true}
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
