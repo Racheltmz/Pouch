@@ -70,7 +70,9 @@ const GeneralSettings = () => {
       <Modal
         transparent={true}
         visible={deleteModalVisible}
-        animationType="slide"
+        animationIn="zoomIn"
+        animationOut="zoomOut"
+        useNativeDriver={true}
         onRequestClose={() => setDeleteModalVisible(false)}
       >
         <View style={styles.modalContainer}>
