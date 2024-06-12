@@ -134,6 +134,13 @@ const PointsHistoryScreen = () => {
               <Text style={styles.historyText}>{curMonth}</Text>
           )}
       </View>
+      <View style={styles.messageContainer}>
+        {selectedView === "Week" ? (
+          <Text style={styles.footprintText}>You reduced your carbon footprint by 13% this week!</Text>
+        ) : (
+          <Text style={styles.footprintText}>You reduced your carbon footprint by 26% this month!</Text>
+        )}
+      </View>
       <LineChart
         data={chartData}
         width={Dimensions.get("window").width - 40}
@@ -261,7 +268,26 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontWeight: "bold",
     fontSize: 20,
-  }  
+  },
+  messageContainer: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 10,
+    marginTop: 10,
+    borderWidth: 0.5,
+    borderColor: "#ccc",
+    shadowColor: "#000",
+    shadowOpacity: 0.3,
+    shadowRadius: 0.5,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
+  },
+  footprintText: {
+    fontSize: 17,
+    color: "#88C34A",
+    fontWeight: 'bold',
+  },
 });
 
 export default PointsHistoryScreen;
