@@ -14,6 +14,7 @@ const PointsHistoryScreen = () => {
   const { curUser } = useContext(AppContext);
   const [selectedView, setSelectedView] = useState("Week");
   const [filteredData, setFilteredData] = useState([]);
+  const [dataRecords, setDataRecords] = useState([]);
 
   useEffect(() => {
     filterData(selectedView);
@@ -44,6 +45,7 @@ const PointsHistoryScreen = () => {
 
     const aggregatedData = aggregatePointsByDate(filtered);
     setFilteredData(aggregatedData);
+    setDataRecords(filtered);
   };
 
   const aggregatePointsByDate = (data) => {
@@ -174,7 +176,7 @@ const PointsHistoryScreen = () => {
 
   return (
     <FlatList
-      data={filteredData}
+      data={dataRecords}
       renderItem={renderItem}
       keyExtractor={(item) => item.date.toString()}
       contentContainerStyle={styles.listContainer}
@@ -226,13 +228,14 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginVertical: 10,
+    marginVertical: 5,
   },
   button: {
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
     backgroundColor: "#ddd",
+    width: 160,
   },
   selectedButton: {
     backgroundColor: "#88C34A",
@@ -241,6 +244,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#fff",
     fontWeight: "bold",
+    textAlign: 'center',
   },
 });
 
