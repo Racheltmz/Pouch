@@ -185,7 +185,7 @@ const PointsHistoryScreen = () => {
     <FlatList
       data={dataRecords}
       renderItem={renderItem}
-      keyExtractor={(item) => item.date.toString()}
+      keyExtractor={(item, index) => `${item.date.toString()}-${index}`}
       contentContainerStyle={styles.listContainer}
       ListHeaderComponent={renderHeader}
     />
