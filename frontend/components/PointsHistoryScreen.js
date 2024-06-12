@@ -12,7 +12,7 @@ import { AppContext } from "../context/AppContext";
 
 const PointsHistoryScreen = () => {
   const { curUser } = useContext(AppContext);
-  const [selectedView, setSelectedView] = useState("Day");
+  const [selectedView, setSelectedView] = useState("Week");
   const [filteredData, setFilteredData] = useState(curUser.history);
 
   useEffect(() => {
@@ -24,12 +24,12 @@ const PointsHistoryScreen = () => {
     const now = new Date();
 
     switch (view) {
-      case "Day":
-        filtered = curUser.history.filter((item) => {
-          const itemDate = new Date(item.date);
-          return now.toDateString() === itemDate.toDateString();
-        });
-        break;
+      // case "Day":
+      //   filtered = curUser.history.filter((item) => {
+      //     const itemDate = new Date(item.date);
+      //     return now.toDateString() === itemDate.toDateString();
+      //   });
+      //   break;
       case "Week":
         filtered = curUser.history.filter((item) => {
           const itemDate = new Date(item.date);
@@ -94,7 +94,7 @@ const PointsHistoryScreen = () => {
   const renderHeader = () => (
     <View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={[
             styles.button,
             selectedView === "Day" && styles.selectedButton,
@@ -102,7 +102,7 @@ const PointsHistoryScreen = () => {
           onPress={() => handleViewChange("Day")}
         >
           <Text style={styles.buttonText}>Day</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           style={[
             styles.button,
